@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olka Studio — Admin 👑</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--surface:#111;--surface2:#181818;--border:rgba(255,255,255,.07);--gold:#c9a96e;--gold-light:#e8d5b0;--text:#f0ece4;--muted:rgba(240,236,228,.45);--green:#50c878;--yellow:#ffb432;--red:#ff6b6b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:40px;width:100%;max-width:360px;text-align:center}
+.title{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold)}
+.sub{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:4px 0 28px}
+.input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--text);font-family:inherit;font-size:14px;outline:none;margin-bottom:12px}
+.input:focus{border-color:rgba(201,169,110,.5)}
+.btn{background:var(--gold);color:#000;border:none;border-radius:50px;padding:14px 28px;font-family:inherit;font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn:hover{background:var(--gold-light)}
+.btn-outline{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:50px;padding:10px 20px;font-family:inherit;font-size:11px;letter-spacing:1px;cursor:pointer}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:6px 14px;font-size:10px;border-radius:20px;border:none;cursor:pointer;font-family:inherit;font-weight:500;letter-spacing:1px;text-transform:uppercase}
+.btn-confirm{background:rgba(80,200,120,.15);color:var(--green);border:1px solid rgba(80,200,120,.3)}
+.btn-cancel{background:rgba(255,107,107,.1);color:var(--red);border:1px solid rgba(255,107,107,.2)}
+.app{display:none;max-width:900px;margin:0 auto;padding:24px 16px 100px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 18px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--muted);font-family:inherit;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.tab.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.view{display:none}
+.view.active{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+.stat-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);margin-top:4px}
+.section{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:24px 0 12px;display:flex;align-items:center;gap:10px}
+.section::after{content:'';flex:1;height:1px;background:var(--border)}
+.booking{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:8px}
+.booking-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
+.booking-name{font-size:14px;font-weight:500}
+.booking-svc{font-size:11px;color:var(--gold);margin-top:2px}
+.booking-meta{font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px}
+.badge{padding:3px 10px;border-radius:20px;font-size:9px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.b-pending{background:rgba(255,180,50,.1);color:var(--yellow);border:1px solid rgba(255,180,50,.2)}
+.b-confirmed{background:rgba(80,200,120,.1);color:var(--green);border:1px solid rgba(80,200,120,.2)}
+.b-cancelled{background:rgba(255,107,107,.1);color:var(--red);border:1px solid rgba(255,107,107,.2)}
+.actions{display:flex;gap:6px;margin-top:8px}
+.upload{border:2px dashed rgba(201,169,110,.3);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:rgba(201,169,110,.02);margin-bottom:14px}
+.upload:hover{border-color:var(--gold)}
+.upload p{font-size:12px;color:var(--muted);margin-top:6px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.thumb{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--surface2)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .del{position:absolute;top:6px;right:6px;background:rgba(255,107,107,.85);color:#fff;border:none;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:13px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+.error{color:var(--red);font-size:12px;margin-top:8px;display:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--gold);border-radius:12px;padding:12px 20px;font-size:13px;z-index:100;display:none}
+@media(max-width:480px){.gallery{grid-template-columns:repeat(2,1fr)}.field-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginScreen">
+  <div class="card">
+    <div class="title">Olka Studio</div>
+    <div class="sub">Admin 👑</div>
+    <input class="input" type="password" id="pwd" placeholder="Admin password" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn" style="width:100%" onclick="login()">Enter</button>
+    <div class="error" id="err">❌ Wrong password</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="header">
+    <div class="logo">Olka <em style="color:var(--gold-light)">Studio</em></div>
+    <button class="btn-outline" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show('dash',this)">📊 Dashboard</button>
+    <button class="tab" onclick="show('bookings',this)">🗓 Bookings</button>
+    <button class="tab" onclick="show('gallery',this)">📸 Gallery</button>
+    <button class="tab" onclick="show('block',this)">⏰ Block Time</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="view active" id="v-dash">
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Today</div><div class="stat-val" id="s-today">—</div></div>
+      <div class="stat"><div class="stat-label">Pending</div><div class="stat-val" id="s-pending">—</div></div>
+      <div class="stat"><div class="stat-label">Week $</div><div class="stat-val" id="s-rev">—</div></div>
+      <div class="stat"><div class="stat-label">Clients</div><div class="stat-val" id="s-cli">—</div></div>
+    </div>
+    <div class="section">Today's Schedule</div>
+    <div id="today-list">Loading...</div>
+  </div>
+
+  <!-- BOOKINGS -->
+  <div class="view" id="v-bookings">
+    <div class="tabs" style="margin-bottom:14px">
+      <button class="tab active" onclick="filter('all',this)">All</button>
+      <button class="tab" onclick="filter('pending',this)">⏳ Pending</button>
+      <button class="tab" onclick="filter('confirmed',this)">✅ Confirmed</button>
+      <button class="tab" onclick="filter('cancelled',this)">❌ Cancelled</button>
+    </div>
+    <div id="b-list">Loading...</div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="view" id="v-gallery">
+    <div class="upload" onclick="document.getElementById('gFile').click()">
+      <div style="font-size:32px">📸</div>
+      <p><strong style="color:var(--gold)">Click to upload</strong><br>Photo will appear in client gallery</p>
+    </div>
+    <input type="file" id="gFile" accept="image/*" style="display:none" onchange="uploadPhoto(event)">
+    <div class="field-row">
+      <div><label class="label">Caption</label><input class="input" id="g-cap" placeholder="e.g. Spring gel design"></div>
+      <div><label class="label">Category</label>
+        <select class="input" id="g-cat">
+          <option value="general">General</option>
+          <option value="gel-polish">Gel Polish</option>
+          <option value="nail-art">Nail Art</option>
+          <option value="pedicure">Pedicure</option>
+          <option value="extensions">Extensions</option>
+          <option value="brows">Brows</option>
+          <option value="french">French</option>
+        </select>
+      </div>
+    </div>
+    <div class="section">Published</div>
+    <div class="gallery" id="g-grid">Loading...</div>
+  </div>
+
+  <!-- BLOCK TIME -->
+  <div class="view" id="v-block">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px">
+      <div class="field-row">
+        <div><label class="label">Date</label><input class="input" type="date" id="bk-date"></div>
+        <div><label class="label">Reason</label><input class="input" id="bk-reason" placeholder="Day off, holiday..."></div>
+      </div>
+      <div class="field-row">
+        <div><label class="label">From</label><input class="input" type="time" id="bk-from"></div>
+        <div><label class="label">To</label><input class="input" type="time" id="bk-to"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin:10px 0;cursor:pointer">
+        <input type="checkbox" id="bk-allday" style="accent-color:var(--gold);width:16px;height:16px">
+        Full day off
+      </label>
+      <button class="btn" onclick="addBlock()">Block This Time</button>
+    </div>
+    <div class="section">Blocked</div>
+    <div id="bk-list">Loading...</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = window.location.origin;
+let token = '';
+let currentFilter = 'all';
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+async function login() {
+  const pwd = document.getElementById('pwd').value;
+  try {
+    const r = await fetch(API+'/api/admin/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({password: pwd})
+    });
+    const d = await r.json();
+    if (d.success) {
+      token = d.token;
+      localStorage.setItem('olka_t', token);
+      enter();
+    } else {
+      document.getElementById('err').style.display='block';
+    }
+  } catch(e) { alert('Server error: '+e.message); }
+}
+
+function logout() {
+  localStorage.removeItem('olka_t'); token='';
+  document.getElementById('app').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+}
+
+function enter() {
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+  loadDash();
+}
+
+window.onload = () => {
+  const s = localStorage.getItem('olka_t');
+  if (s) { token=s; enter(); }
+};
+
+const H = () => ({'x-admin-password': token});
+
+function show(name, el) {
+  document.querySelectorAll('#app > .tabs > .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('v-'+name).classList.add('active');
+  if (name==='dash') loadDash();
+  if (name==='bookings') loadBookings();
+  if (name==='gallery') loadGallery();
+  if (name==='block') loadBlocked();
+}
+
+async function loadDash() {
+  try {
+    const r = await fetch(API+'/api/stats', {headers: H()});
+    const s = await r.json();
+    document.getElementById('s-today').textContent = s.today;
+    document.getElementById('s-pending').textContent = s.pending;
+    document.getElementById('s-rev').textContent = '$'+s.week_revenue;
+    document.getElementById('s-cli').textContent = s.total_clients;
+
+    // today's bookings
+    const today = new Date().toLocaleDateString('uk-UA');
+    const br = await fetch(API+'/api/bookings?date='+today, {headers: H()});
+    const bookings = await br.json();
+    const list = document.getElementById('today-list');
+    if (bookings.length === 0) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:16px 0">No bookings today</div>';
+    } else {
+      list.innerHTML = bookings.map(renderBooking).join('');
+    }
+  } catch(e) { console.error(e); }
+}
+
+function renderBooking(b) {
+  const services = (Array.isArray(b.services)?b.services:[]).map(s=>s.name).join(', ');
+  return `
+    <div class="booking">
+      <div class="booking-top">
+        <div>
+          <div class="booking-name">${b.is_gift?'🎁 ':''}${b.name}</div>
+          <div class="booking-svc">${services}</div>
+          <div class="booking-meta">📅 ${b.date} · 🕐 ${b.time} · ⏱ ${b.duration_min}min · 💰 $${b.total_price}</div>
+          ${b.phone?`<div class="booking-meta">📱 ${b.phone}</div>`:''}
+          ${b.notes?`<div class="booking-meta" style="font-style:italic">📝 ${b.notes}</div>`:''}
+        </div>
+        <span class="badge b-${b.status}">${b.status}</span>
+      </div>
+      ${b.status==='pending'?`
+        <div class="actions">
+          <button class="btn-sm btn-confirm" onclick="setStatus(${b.id},'confirmed')">✓ Confirm</button>
+          <button class="btn-sm btn-cancel" onclick="setStatus(${b.id},'cancelled')">✕ Cancel</button>
+        </div>`:''}
+    </div>`;
+}
+
+async function loadBookings() {
+  try {
+    const url = currentFilter==='all' ? '/api/bookings' : '/api/bookings?status='+currentFilter;
+    const r = await fetch(API+url, {headers: H()});
+    const data = await r.json();
+    const list = document.getElementById('b-list');
+    list.innerHTML = data.length ? data.map(renderBooking).join('') : '<div style="color:var(--muted);padding:16px">No bookings</div>';
+  } catch(e) { console.error(e); }
+}
+
+function filter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('#v-bookings .tabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  loadBookings();
+}
+
+async function setStatus(id, status) {
+  await fetch(API+'/api/bookings/'+id+'/status', {
+    method:'PATCH',
+    headers:{...H(),'Content-Type':'application/json'},
+    body: JSON.stringify({status})
+  });
+  toast(status==='confirmed' ? '✅ Confirmed' : '❌ Cancelled');
+  loadDash();
+  loadBookings();
+}
+
+async function loadGallery() {
+  try {
+    const r = await fetch(API+'/api/gallery');
+    const photos = await r.json();
+    const grid = document.getElementById('g-grid');
+    grid.innerHTML = photos.length ? photos.map(p=>`
+      <div class="thumb">
+        <img src="${API}/uploads/gallery/${p.filename}">
+        <button class="del" onclick="delPhoto(${p.id})">🗑</button>
+      </div>`).join('') : '<div style="color:var(--muted)">No photos yet</div>';
+  } catch(e) { console.error(e); }
+}
+
+async function uploadPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const fd = new FormData();
+  fd.append('photo', file);
+  fd.append('caption', document.getElementById('g-cap').value);
+  fd.append('category', document.getElementById('g-cat').value);
+  try {
+    await fetch(API+'/api/gallery', { method:'POST', headers: H(), body: fd });
+    toast('✨ Photo uploaded');
+    document.getElementById('g-cap').value = '';
+    loadGallery();
+  } catch(err) { alert('Upload failed: '+err.message); }
+}
+
+async function delPhoto(id) {
+  if (!confirm('Delete this photo?')) return;
+  await fetch(API+'/api/gallery/'+id, {method:'DELETE', headers: H()});
+  loadGallery();
+}
+
+async function loadBlocked() {
+  try {
+    const r = await fetch(API+'/api/blocked');
+    const data = await r.json();
+    const list = document.getElementById('bk-list');
+    list.innerHTML = data.length ? data.map(b=>`
+      <div class="booking">
+        <div class="booking-top">
+          <div>
+            <div class="booking-name">📅 ${b.date}</div>
+            <div class="booking-meta">${b.all_day?'Full day':b.time_from+' — '+b.time_to} ${b.reason?'· '+b.reason:''}</div>
+          </div>
+          <button class="btn-sm btn-cancel" onclick="delBlock(${b.id})">Remove</button>
+        </div>
+      </div>`).join('') : '<div style="color:var(--muted);padding:16px">No blocked dates</div>';
+  } catch(e) { console.error(e); }
+}
+
+async function addBlock() {
+  const body = {
+    date: document.getElementById('bk-date').value,
+    time_from: document.getElementById('bk-from').value,
+    time_to: document.getElementById('bk-to').value,
+    reason: document.getElementById('bk-reason').value,
+    all_day: document.getElementById('bk-allday').checked
+  };
+  if (!body.date) { alert('Pick a date'); return; }
+  await fetch(API+'/api/blocked', {
+    method:'POST',
+    headers:{...H(),'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  toast('✅ Time blocked');
+  document.getElementById('bk-date').value='';
+  document.getElementById('bk-reason').value='';
+  loadBlocked();
+}
+
+async function delBlock(id) {
+  await fetch(API+'/api/blocked/'+id, {method:'DELETE', headers: H()});
+  loadBlocked();
+}
+</script>
+</body>
+</html>
