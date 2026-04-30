@@ -1,7 +1,6 @@
 {
   "name": "olka-studio",
   "version": "1.0.0",
-  "description": "Olka Studio booking app",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
