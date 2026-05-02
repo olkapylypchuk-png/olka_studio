@@ -68,6 +68,7 @@ async function sendEmail(booking){
     html: '<div style="font-family:Georgia;max-width:500px;background:#0a0a0a;color:#f0ece4;padding:40px;border-radius:16px"><h1 style="color:#c9a96e;font-weight:300">Olka Studio</h1><p>Дякуємо, <b>'+booking.name+'</b>! Оля підтвердить протягом 2 годин.</p><ul style="color:#f0ece4">'+svcs+'</ul><p>📅 '+booking.date+' · 🕐 '+booking.time+' · 💰 $'+booking.total_price+'</p></div>'
   }).catch(console.error);
 }
+
 function adminAuth(req,res,next){
   const pwd = req.headers['x-admin-password']||req.query.pwd;
   if(pwd===process.env.ADMIN_PASSWORD) return next();
@@ -77,6 +78,11 @@ function adminAuth(req,res,next){
 app.post('/api/admin/login',(req,res)=>{
   if(req.body.password===process.env.ADMIN_PASSWORD) res.json({success:true,token:process.env.ADMIN_PASSWORD});
   else res.status(401).json({error:'Wrong password'});
+});
+
+app.post('/api/admin/clear-demo', adminAuth, async(req,res)=>{
+  await run("DELETE FROM bookings WHERE name IN ('Sarah M.','Anna K.','Gift for Mom') OR id < 100");
+  res.json({success:true});
 });
 
 app.post('/api/bookings', upload.single('photo'), async(req,res)=>{
@@ -108,52 +114,15 @@ app.patch('/api/bookings/:id/status', adminAuth, async(req,res)=>{
   res.json({success:true,booking:b});
 });
 
+app.delete('/api/bookings/:id', adminAuth, async(req,res)=>{
+  await run('DELETE FROM bookings WHERE id=?',[req.params.id]);
+  res.json({success:true});
+});
+
 app.get('/api/gallery', async(req,res)=>{
   const photos = await all('SELECT * FROM gallery ORDER BY created_at DESC LIMIT 20');
   res.json(photos);
 });
 
 app.post('/api/gallery', adminAuth, upload.single('photo'), async(req,res)=>{
-  if(!req.file) return res.status(400).json({error:'No file'});
-  const r = await run('INSERT INTO gallery (filename,caption,category) VALUES (?,?,?)',[req.file.filename,req.body.caption||'',req.body.category||'general']);
-  res.json({success:true,id:r.lastID,filename:req.file.filename});
-});
-
-app.delete('/api/gallery/:id', adminAuth, async(req,res)=>{
-  const p = await get('SELECT * FROM gallery WHERE id=?',[req.params.id]);
-  if(p){
-    const f=path.join(__dirname,'uploads','gallery',p.filename);
-    if(fs.existsSync(f)) fs.unlinkSync(f);
-    await run('DELETE FROM gallery WHERE id=?',[req.params.id]);
-  }
-  res.json({success:true});
-});
-
-app.get('/api/blocked', async(req,res)=>{
-  const rows = req.query.date ? await all('SELECT * FROM blocked_times WHERE date=?',[req.query.date]) : await all('SELECT * FROM blocked_times');
-  res.json(rows);
-});
-
-app.post('/api/blocked', adminAuth, async(req,res)=>{
-  const b = req.body;
-  const r = await run('INSERT INTO blocked_times (date,time_from,time_to,reason,all_day) VALUES (?,?,?,?,?)',[b.date,b.time_from||'',b.time_to||'',b.reason||'',b.all_day?1:0]);
-  res.json({success:true,id:r.lastID});
-});
-
-app.delete('/api/blocked/:id', adminAuth, async(req,res)=>{
-  await run('DELETE FROM blocked_times WHERE id=?',[req.params.id]);
-  res.json({success:true});
-});
-
-app.get('/api/stats', adminAuth, async(req,res)=>{
-  const today = new Date().toLocaleDateString('uk-UA');
-  const t = await get("SELECT COUNT(*) as c FROM bookings WHERE date=? AND status!='cancelled'",[today]);
-const p = await get("SELECT COUNT(*) as c FROM bookings WHERE status='pending'");
-  const r = await get("SELECT COALESCE(SUM(total_price),0) as s FROM bookings WHERE status='confirmed' AND created_at>=datetime('now','-7 days')");
-  const c = await get("SELECT COUNT(DISTINCT phone) as c FROM bookings WHERE phone!=''");
-  res.json({today:t&&t.c||0,pending:p&&p.c||0,week_revenue:r&&r.s||0,total_clients:c&&c.c||0});
-});
-
-app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
-
-app.listen(PORT,()=>console.log('Olka Studio running on port '+PORT));
+  if(!req.file) re
