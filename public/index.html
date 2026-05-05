@@ -1,1590 +1,731 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Olka Studio — Nail & Beauty, Hamilton ON</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #181818;
-    --border: rgba(255,255,255,0.07);
-    --gold: #c9a96e;
-    --gold-light: #e8d5b0;
-    --text: #f0ece4;
-    --text-muted: rgba(240,236,228,0.45);
-    --accent: #c9a96e;
-    --radius: 18px;
-  }
+:root{
+  --bg:#0a0a0a;--surface:#111;--surface2:#181818;--border:rgba(255,255,255,0.08);
+  --gold:#c9a96e;--gold-light:#e8d5b0;--text:#f0ece4;--muted:rgba(240,236,228,0.5);
+  --accent:#c9a96e;--radius:18px;--red:#ef4444;--green:#4ade80;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body{padding:20px 16px 100px;font-size:15px;line-height:1.5}
+.app{max-width:520px;margin:0 auto;position:relative}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+.lang{position:absolute;top:0;right:0;display:flex;gap:4px;z-index:10}
+.lang button{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit}
+.lang button.on{background:var(--gold);color:#000;border-color:var(--gold)}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+.hero{text-align:center;padding:30px 0 20px}
+.tagline{color:var(--muted);font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.brand{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;color:var(--text);margin-bottom:6px;line-height:1}
+.brand i{color:var(--gold);font-style:italic}
+.subtitle{color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.location{display:inline-flex;align-items:center;gap:6px;color:var(--text);font-size:13px;border:1px solid var(--border);padding:6px 14px;border-radius:20px}
 
-  /* ── LANGUAGE TOGGLE ── */
-  .lang-bar {
-    position: fixed;
-    top: 16px; right: 16px;
-    z-index: 100;
-    display: flex; gap: 4px;
-  }
-  .lang-btn {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 6px 14px;
-    border-radius: 40px;
-    font-size: 11px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all .2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .lang-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+.section{margin-top:30px}
+.section-title{text-align:center;color:var(--muted);font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;position:relative}
+.section-title:before,.section-title:after{content:'';position:absolute;top:50%;width:30px;height:1px;background:var(--border)}
+.section-title:before{left:calc(50% - 100px)}
+.section-title:after{right:calc(50% - 100px)}
 
-  /* ── HEADER ── */
-  header {
-    text-align: center;
-    padding: 64px 24px 32px;
-    position: relative;
-  }
-  .logo-eyebrow {
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(42px, 10vw, 72px);
-    font-weight: 300;
-    letter-spacing: -1px;
-    line-height: 1;
-  }
-  .logo em { font-style: italic; color: var(--gold); }
-  .tagline {
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 12px;
-  }
-  .location-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    padding: 6px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 40px;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .location-pill svg { width:12px; height:12px; fill: var(--gold); }
+.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px}
+.gal-item{aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:var(--surface2);position:relative;cursor:pointer}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-item .label{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,0.7);color:#fff;font-size:9px;padding:3px 7px;border-radius:10px;letter-spacing:0.5px}
 
-  /* ── SECTION HEADINGS ── */
-  .section { padding: 0 16px 40px; max-width: 480px; margin: 0 auto; }
-  .section-label {
-    font-size: 9px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+.cta-section{margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+.btn-book{width:100%;background:var(--gold);color:#000;border:none;padding:16px;border-radius:14px;font-size:14px;font-weight:500;letter-spacing:1px;cursor:pointer;font-family:inherit;text-transform:uppercase}
+.btn-book:hover{background:var(--gold-light)}
+.btn-secondary{width:100%;background:transparent;color:var(--text);border:1px solid var(--border);padding:14px;border-radius:14px;font-size:13px;cursor:pointer;font-family:inherit;letter-spacing:1px;margin-top:10px;text-transform:uppercase}
 
-  /* ── GALLERY ── */
-  .gallery-scroll {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 0 16px 16px;
-    scrollbar-width: none;
-  }
-  .gallery-scroll::-webkit-scrollbar { display: none; }
-  .gallery-card {
-    flex: 0 0 200px;
-    height: 260px;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    background: var(--surface2);
-    cursor: pointer;
-    transition: transform .3s;
-  }
-  .gallery-card:hover { transform: scale(1.02); }
-  .gallery-card img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: .85;
-    transition: opacity .3s;
-  }
-  .gallery-card:hover img { opacity: 1; }
-  .gallery-card .badge {
-    position: absolute;
-    bottom: 12px; left: 12px;
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 8px;
-    padding: 4px 10px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--gold-light);
-  }
-  .gallery-placeholder {
-    width: 100%; height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: var(--text-muted);
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .gallery-placeholder .nail-icon { font-size: 32px; }
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:10px 0 14px;z-index:100}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;color:var(--muted);font-family:inherit;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:6px}
+.nav-item.on{color:var(--gold)}
+.nav-item .ico{font-size:18px}
+.nav-item.crown{position:relative}
+.nav-item.crown .ico{filter:drop-shadow(0 0 4px rgba(201,169,110,0.5))}
 
-  /* ── BOOKING STEPPER ── */
-  .stepper {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 0 16px 32px;
-  }
-  .step-dot {
-    width: 28px; height: 4px;
-    border-radius: 2px;
-    background: var(--surface2);
-    transition: background .3s;
-  }
-  .step-dot.active { background: var(--gold); }
-  .step-dot.done { background: rgba(201,169,110,.4); }
+/* Modal/screens */
+.screen{display:none;animation:fadeIn 0.3s}
+.screen.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── CARDS / PANELS ── */
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 12px;
-  }
+.screen-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-top:10px}
+.back-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-family:inherit}
+.screen-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--gold)}
 
-  /* ── SERVICES ── */
-  .service-cat-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 300;
-    margin-bottom: 12px;
-    color: var(--gold-light);
-  }
-  .service-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background .15s;
-    border-radius: 8px;
-    padding: 14px 10px;
-    margin: 0 -10px;
-  }
-  .service-item:last-child { border-bottom: none; }
-  .service-item:hover { background: rgba(255,255,255,.03); }
-  .service-item.selected { background: rgba(201,169,110,.08); }
-  .service-item.selected .service-check { opacity: 1; }
-  .service-name { font-size: 14px; font-weight: 400; }
-  .service-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .service-right { display: flex; align-items: center; gap: 10px; text-align: right; }
-  .service-price { font-size: 15px; color: var(--gold); font-weight: 500; }
-  .service-time { font-size: 10px; color: var(--text-muted); }
-  .service-check {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    transition: opacity .2s;
-    flex-shrink: 0;
-  }
-  .service-check svg { width: 10px; height: 10px; fill: #000; }
+.step-indicator{display:flex;justify-content:center;gap:6px;margin-bottom:24px}
+.step-dot{width:24px;height:3px;background:var(--border);border-radius:2px;transition:all 0.3s}
+.step-dot.on{background:var(--gold);width:36px}
+.step-label{text-align:center;color:var(--muted);font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
 
-  /* ── TOTAL BAR ── */
-  .total-bar {
-    background: linear-gradient(135deg, rgba(201,169,110,.12), rgba(201,169,110,.04));
-    border: 1px solid rgba(201,169,110,.25);
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .total-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
-  .total-value { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); }
-  .total-duration { font-size: 11px; color: var(--text-muted); text-align: right; }
+/* Services */
+.svc-group{margin-bottom:18px}
+.svc-group h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.svc{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.2s;gap:10px}
+.svc:hover{border-color:var(--gold)}
+.svc.on{background:rgba(201,169,110,0.1);border-color:var(--gold)}
+.svc-info{flex:1;min-width:0}
+.svc-name{font-size:14px;font-weight:500;margin-bottom:3px}
+.svc-time{font-size:11px;color:var(--muted)}
+.svc-price{color:var(--gold);font-weight:500;white-space:nowrap;font-size:14px}
+.svc-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:transparent}
+.svc.on .svc-check{background:var(--gold);border-color:var(--gold);color:#000}
 
-  /* ── DATE PICKER ── */
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    margin-top: 8px;
-  }
-  .cal-header { text-align: center; font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; padding: 4px 0; }
-  .cal-day {
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    font-size: 13px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all .15s;
-  }
-  .cal-day:hover:not(.disabled):not(.empty) { border-color: var(--gold); color: var(--gold); }
-  .cal-day.selected { background: var(--gold); color: #000; font-weight: 500; }
-  .cal-day.today { border-color: rgba(201,169,110,.4); }
-  .cal-day.disabled { color: var(--text-muted); opacity: .3; cursor: default; }
-  .cal-day.empty { cursor: default; }
-  .cal-month-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .cal-month-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; }
-  .cal-nav-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all .15s;
-  }
-  .cal-nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+.summary-box{background:var(--surface);border:1px solid var(--gold);border-radius:14px;padding:14px;margin:18px 0}
+.summary-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.summary-row.total{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-weight:500;color:var(--gold);font-size:16px}
 
-  /* ── TIME SLOTS ── */
-  .time-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 8px;
-  }
-  .time-slot {
-    padding: 12px 8px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .15s;
-    font-size: 13px;
-  }
-  .time-slot:hover:not(.unavailable) { border-color: var(--gold); color: var(--gold); }
-  .time-slot.selected { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 500; }
-  .time-slot.unavailable { opacity: .25; cursor: default; text-decoration: line-through; }
-  .duration-note {
-    font-size: 10px;
-    color: var(--text-muted);
-    text-align: center;
-    margin-top: 8px;
-  }
+/* Calendar */
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold)}
+.cal-nav{background:var(--surface);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;color:var(--text);cursor:pointer;font-family:inherit;font-size:14px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day-name{text-align:center;color:var(--muted);font-size:11px;padding:6px 0;letter-spacing:1px}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;font-size:14px;background:var(--surface);border:1px solid transparent;transition:all 0.2s}
+.cal-day.empty{background:transparent;cursor:default}
+.cal-day.disabled{color:var(--muted);opacity:0.3;cursor:not-allowed;background:transparent}
+.cal-day.today{border-color:var(--gold)}
+.cal-day:not(.disabled):not(.empty):hover{background:rgba(201,169,110,0.15)}
+.cal-day.on{background:var(--gold);color:#000;font-weight:500}
 
-  /* ── INPUTS ── */
-  .input-group { margin-bottom: 14px; }
-  .input-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; display: block; }
-  .input-field {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    outline: none;
-    transition: border-color .2s;
-  }
-  .input-field:focus { border-color: rgba(201,169,110,.5); }
-  .input-field::placeholder { color: var(--text-muted); }
+/* Time grid */
+.time-info{text-align:center;color:var(--muted);font-size:12px;margin-bottom:12px}
+.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.time-slot{padding:10px 4px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-size:13px;transition:all 0.2s;font-family:inherit}
+.time-slot:hover:not(.disabled){border-color:var(--gold)}
+.time-slot.on{background:var(--gold);color:#000;border-color:var(--gold);font-weight:500}
+.time-slot.disabled{opacity:0.3;cursor:not-allowed;text-decoration:line-through}
 
-  /* ── UPLOAD ── */
-  .upload-area {
-    border: 1px dashed rgba(201,169,110,.3);
-    border-radius: 14px;
-    padding: 28px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .2s;
-    background: rgba(201,169,110,.02);
-  }
-  .upload-area:hover { border-color: var(--gold); background: rgba(201,169,110,.05); }
-  .upload-icon { font-size: 28px; margin-bottom: 8px; }
-  .upload-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
-  .upload-text strong { color: var(--gold); }
-  .upload-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .upload-thumb {
-    width: 72px;
-    height: 72px;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 1px solid var(--border);
-  }
+/* Form */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:0.5px;text-transform:uppercase}
+.field input,.field textarea,.field select{width:100%;padding:13px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:inherit;font-size:15px}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+.field input.err{border-color:var(--red)}
+.field textarea{min-height:70px;resize:vertical}
+.field-hint{font-size:11px;color:var(--muted);margin-top:4px}
 
-  /* ── NOTIFY TOGGLES ── */
-  .notify-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .notify-option:last-child { border-bottom: none; }
-  .notify-left { display: flex; align-items: center; gap: 12px; }
-  .notify-icon { font-size: 18px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border-radius: 10px; }
-  .notify-name { font-size: 14px; }
-  .notify-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-  .toggle {
-    width: 44px;
-    height: 26px;
-    border-radius: 13px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    cursor: pointer;
-    position: relative;
-    transition: background .2s;
-  }
-  .toggle.on { background: var(--gold); border-color: var(--gold); }
-  .toggle-knob {
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: #fff;
-    transition: transform .2s;
-  }
-  .toggle.on .toggle-knob { transform: translateX(18px); }
+.gift-toggle{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;cursor:pointer}
+.gift-toggle input{width:auto;margin:0}
 
-  /* ── SPECIAL NOTE ── */
-  .notes-field {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    outline: none;
-    resize: none;
-    transition: border-color .2s;
-    min-height: 80px;
-  }
-  .notes-field:focus { border-color: rgba(201,169,110,.5); }
+/* Confirm */
+.confirm-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+.confirm-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;gap:10px}
+.confirm-row:last-child{border-bottom:none}
+.confirm-row .label{color:var(--muted)}
+.confirm-row .val{text-align:right;flex:1}
 
-  /* ── BUTTONS ── */
-  .btn-primary {
-    width: 100%;
-    background: var(--gold);
-    color: #000;
-    border: none;
-    border-radius: 50px;
-    padding: 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all .2s;
-    margin-top: 8px;
-  }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,169,110,.25); }
-  .btn-primary:disabled { opacity: .35; cursor: not-allowed; transform: none; }
-  .btn-secondary {
-    width: 100%;
-    background: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all .2s;
-    margin-top: 8px;
-  }
-  .btn-secondary:hover { border-color: var(--text-muted); color: var(--text); }
+.note{padding:12px 14px;background:rgba(201,169,110,0.08);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5;text-align:center}
 
-  /* ── CONFIRMATION ── */
-  .confirm-card {
-    background: linear-gradient(145deg, #141414, #111);
-    border: 1px solid rgba(201,169,110,.2);
-    border-radius: 20px;
-    padding: 28px;
-    text-align: center;
-  }
-  .confirm-check {
-    width: 64px; height: 64px;
-    border-radius: 50%;
-    background: rgba(201,169,110,.12);
-    border: 2px solid var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 24px;
-  }
-  .confirm-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    font-weight: 300;
-    margin-bottom: 6px;
-  }
-  .confirm-sub { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
-  .confirm-details {
-    margin: 20px 0;
-    text-align: left;
-  }
-  .confirm-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .confirm-row:last-child { border-bottom: none; }
-  .confirm-row-label { color: var(--text-muted); }
-  .confirm-row-value { color: var(--text); font-weight: 400; }
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:14px 22px;border-radius:12px;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.5);animation:slideUp 0.3s}
+@keyframes slideUp{from{transform:translate(-50%,20px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
 
-  /* ── ADMIN PANEL ── */
-  .admin-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.85);
-    z-index: 200;
-    display: none;
-    align-items: flex-end;
-  }
-  .admin-overlay.open { display: flex; }
-  .admin-sheet {
-    width: 100%;
-    background: #111;
-    border-top: 1px solid rgba(201,169,110,.2);
-    border-radius: 24px 24px 0 0;
-    padding: 24px 20px 40px;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .admin-handle {
-    width: 40px; height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    margin: 0 auto 20px;
-  }
-  .admin-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .admin-title .crown { color: var(--gold); }
+.success-screen{text-align:center;padding:40px 20px}
+.success-icon{font-size:60px;margin-bottom:14px}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold);margin-bottom:10px}
+.success-text{color:var(--muted);font-size:14px;margin-bottom:24px;line-height:1.6}
 
-  .booking-list-item {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .booking-client { font-size: 14px; font-weight: 500; }
-  .booking-service { font-size: 11px; color: var(--gold); margin-top: 2px; }
-  .booking-datetime { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-  .booking-status {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .status-pending { background: rgba(255,180,50,.1); color: #ffb432; border: 1px solid rgba(255,180,50,.2); }
-  .status-confirmed { background: rgba(80,200,120,.1); color: #50c878; border: 1px solid rgba(80,200,120,.2); }
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-state .ico{font-size:50px;margin-bottom:14px}
 
-  /* ── ADMIN TRIGGER ── */
-  .admin-trigger {
-    position: fixed;
-    bottom: 24px;
-    right: 16px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 1px solid rgba(201,169,110,.3);
-    color: var(--gold);
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 50;
-    box-shadow: 0 4px 20px rgba(0,0,0,.4);
-    transition: all .2s;
-  }
-  .admin-trigger:hover { background: rgba(201,169,110,.1); transform: scale(1.05); }
-
-  /* ── STEP VIEWS ── */
-  .view { display: none; }
-  .view.active { display: block; }
-
-  /* ── NAV TABS ── */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: rgba(10,10,10,.95);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-around;
-    padding: 12px 0 20px;
-    z-index: 40;
-  }
-  .nav-tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    padding: 4px 16px;
-    border-radius: 12px;
-    transition: all .15s;
-  }
-  .nav-tab.active .nav-icon { color: var(--gold); }
-  .nav-tab.active .nav-label { color: var(--gold); }
-  .nav-icon { font-size: 20px; color: var(--text-muted); }
-  .nav-label { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
-
-  .page-content { padding-bottom: 100px; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity:0; transform: translateY(16px); }
-    to { opacity:1; transform: translateY(0); }
-  }
-  .view.active { animation: fadeUp .35s ease both; }
-
-  /* GIFT OPTION */
-  .gift-card {
-    background: linear-gradient(135deg, rgba(201,169,110,.08), rgba(201,169,110,.02));
-    border: 1px dashed rgba(201,169,110,.3);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all .2s;
-  }
-  .gift-card:hover { background: rgba(201,169,110,.1); }
-  .gift-card.selected { border-style: solid; border-color: var(--gold); }
-  .gift-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-  .gift-sub { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
-  .gift-icon { font-size: 22px; margin-bottom: 8px; }
-
-  /* SOCIALS */
-  .social-input-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-  .social-icon-box { width: 40px; height: 40px; border-radius: 10px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-
+@media (max-width:380px){
+  .brand{font-size:38px}
+  .gallery{grid-template-columns:repeat(3,1fr)}
+  .time-grid{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
 <body>
 
-<!-- Language Bar -->
-<div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
-  <button class="lang-btn" onclick="setLang('uk')" id="btn-uk">УК</button>
+<div class="app">
+
+<!-- HOME SCREEN -->
+<div id="screen-home" class="screen on">
+<div class="lang">
+<button id="langEn" class="on" onclick="setLang('en')">EN</button>
+<button id="langUk" onclick="setLang('uk')">УК</button>
 </div>
 
-<!-- Admin Trigger (Olya only) -->
-<div class="admin-trigger" onclick="toggleAdmin()" title="Admin Panel">👑</div>
-
-<!-- ADMIN PANEL OVERLAY -->
-<div class="admin-overlay" id="adminOverlay" onclick="closeAdmin(event)">
-  <div class="admin-sheet">
-    <div class="admin-handle"></div>
-    <div class="admin-title"><span class="crown">👑</span> Olka Studio Admin</div>
-
-    <div class="section-label">Today's Bookings</div>
-
-    <div class="booking-list-item">
-      <div>
-        <div class="booking-client">Sarah M.</div>
-        <div class="booking-service">Gel Polish Manicure + Design (2 nails)</div>
-        <div class="booking-datetime">📅 Today · 11:00 AM · ~1h 40m · $61</div>
-      </div>
-      <span class="booking-status status-confirmed">Confirmed</span>
-    </div>
-
-    <div class="booking-list-item">
-      <div>
-        <div class="booking-client">Anna K.</div>
-        <div class="booking-service">Cosmetic Pedicure (full) + Paraffin Feet</div>
-        <div class="booking-datetime">📅 Today · 2:00 PM · ~2.5h · $95</div>
-      </div>
-      <span class="booking-status status-pending">Pending</span>
-    </div>
-
-    <div class="booking-list-item">
-      <div>
-        <div class="booking-client">Gift for Mom 🎁</div>
-        <div class="booking-service">Manicure Gel Polish (from Elena D.)</div>
-        <div class="booking-datetime">📅 Tomorrow · 10:00 AM · ~1.5h · $55</div>
-      </div>
-      <span class="booking-status status-confirmed">Confirmed</span>
-    </div>
-
-    <div class="section-label" style="margin-top:20px">Quick Actions</div>
-    <button class="btn-secondary" style="margin-bottom:10px">📸 Upload New Portfolio Photo</button>
-    <button class="btn-secondary" style="margin-bottom:10px">🗓 Block Time Off</button>
-    <button class="btn-secondary">📊 This Week's Revenue</button>
-  </div>
+<div class="hero">
+<div class="tagline" data-en="Nail & Beauty Studio" data-uk="Студія нігтів та краси">Nail & Beauty Studio</div>
+<div class="brand">Olka<i>Studio</i></div>
+<div class="subtitle" data-en="Handcrafted Beauty · Hamilton, ON" data-uk="Авторська краса · Гамільтон, ON">Handcrafted Beauty · Hamilton, ON</div>
+<div class="location">📍 Hamilton, Ontario</div>
 </div>
 
-<!-- MAIN APP -->
-<div class="page-content">
+<div class="section-title" data-en="Recent Work" data-uk="Останні роботи">Recent Work</div>
+<div class="gallery" id="galleryGrid"></div>
 
-  <!-- HOME VIEW -->
-  <div class="view active" id="view-home">
-    <header>
-      <div class="logo-eyebrow" id="txt-eyebrow">Nail & Beauty Studio</div>
-      <div class="logo">Olka<em>Studio</em></div>
-      <div class="tagline" id="txt-tagline">Handcrafted beauty · Hamilton, ON</div>
-      <div class="location-pill">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        Hamilton, Ontario
-      </div>
-    </header>
+<div class="cta-section">
+<div class="section-title" data-en="Book Now" data-uk="Записатися">Book Now</div>
+<button class="btn-book" onclick="goScreen('booking');resetBooking()" data-en="+ Book Appointment" data-uk="+ Записатися">+ Book Appointment</button>
+<button class="btn-secondary" onclick="goScreen('appointments')" data-en="My Appointments" data-uk="Мої записи">My Appointments</button>
+</div>
+</div>
 
-    <!-- Recent Work -->
-    <div class="section">
-      <div class="section-label" id="txt-recent">Recent Work</div>
-    </div>
+<!-- BOOKING SCREEN -->
+<div id="screen-booking" class="screen">
+<div class="screen-head">
+<button class="back-btn" onclick="prevStep()">←</button>
+<div class="screen-title" id="stepTitle">Services</div>
+</div>
 
-    <div class="gallery-scroll">
-      <div class="gallery-card">
-        <div class="gallery-placeholder">
-          <div class="nail-icon">💅</div>
-          <span>Gel Polish</span>
-        </div>
-        <div class="badge">Gel Polish</div>
-      </div>
-      <div class="gallery-card">
-        <div class="gallery-placeholder">
-          <div class="nail-icon">✨</div>
-          <span>Nail Art</span>
-        </div>
-        <div class="badge">Nail Art</div>
-      </div>
-      <div class="gallery-card">
-        <div class="gallery-placeholder">
-          <div class="nail-icon">🌸</div>
-          <span>Design</span>
-        </div>
-        <div class="badge">French Tips</div>
-      </div>
-      <div class="gallery-card">
-        <div class="gallery-placeholder">
-          <div class="nail-icon">💎</div>
-          <span>Extensions</span>
-        </div>
-        <div class="badge">Extensions</div>
-      </div>
-      <div class="gallery-card">
-        <div class="gallery-placeholder">
-          <div class="nail-icon">🦋</div>
-          <span>Pedicure</span>
-        </div>
-        <div class="badge">Pedicure</div>
-      </div>
-    </div>
+<div class="step-indicator">
+<div class="step-dot on" data-step="1"></div>
+<div class="step-dot" data-step="2"></div>
+<div class="step-dot" data-step="3"></div>
+<div class="step-dot" data-step="4"></div>
+<div class="step-dot" data-step="5"></div>
+</div>
+<div class="step-label" id="stepLabel" data-en="Step 1 of 5 · Services" data-uk="Крок 1 з 5 · Послуги">Step 1 of 5 · Services</div>
 
-    <div class="section" style="margin-top: 24px;">
-      <div class="section-label" id="txt-book-now">Book Now</div>
-      <button class="btn-primary" onclick="goTo('view-services')" id="btn-book">
-        ✦ Book Appointment
-      </button>
-      <button class="btn-secondary" onclick="goTab('appointments')" id="btn-my-appts">
-        My Appointments
-      </button>
-    </div>
-  </div>
+<!-- Step 1: Services -->
+<div id="step-1" class="step-content">
+<div id="servicesList"></div>
+<div class="summary-box" id="svcSummary" style="display:none">
+<div class="summary-row"><span data-en="Services" data-uk="Послуги">Services</span><span id="svcCount">0</span></div>
+<div class="summary-row"><span data-en="Duration" data-uk="Тривалість">Duration</span><span id="svcDuration">0 min</span></div>
+<div class="summary-row total"><span data-en="Total" data-uk="Всього">Total</span><span id="svcTotal">$0</span></div>
+</div>
+<button class="btn-book" id="btn-step1" onclick="nextStep()" disabled style="opacity:0.4" data-en="Continue →" data-uk="Далі →">Continue →</button>
+</div>
 
-  <!-- SERVICES VIEW -->
-  <div class="view" id="view-services">
-    <div class="section" style="padding-top: 40px;">
-      <div class="section-label" id="txt-step1">Step 1 — Choose Services</div>
+<!-- Step 2: Date -->
+<div id="step-2" class="step-content" style="display:none">
+<div class="cal-head">
+<button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+<div class="cal-month" id="calMonth"></div>
+<button class="cal-nav" onclick="changeMonth(1)">›</button>
+</div>
+<div class="cal-grid" id="calGrid"></div>
+<div class="note" style="margin-top:14px" data-en="Closed on Sundays" data-uk="Неділя — вихідний">Closed on Sundays</div>
+<button class="btn-book" id="btn-step2" onclick="nextStep()" disabled style="opacity:0.4" data-en="Continue →" data-uk="Далі →">Continue →</button>
+</div>
 
-      <!-- HANDS -->
-      <div class="panel">
-        <div class="service-cat-title">💅 <span id="txt-cat-hands">Hands</span></div>
-        <div id="services-hands"></div>
-      </div>
+<!-- Step 3: Time -->
+<div id="step-3" class="step-content" style="display:none">
+<div class="time-info" id="timeInfo"></div>
+<div class="time-grid" id="timeGrid"></div>
+<button class="btn-book" id="btn-step3" onclick="nextStep()" disabled style="opacity:0.4" data-en="Continue →" data-uk="Далі →">Continue →</button>
+</div>
 
-      <!-- FEET -->
-      <div class="panel">
-        <div class="service-cat-title">🦶 <span id="txt-cat-feet">Feet (Pedicure)</span></div>
-        <div id="services-feet"></div>
-      </div>
+<!-- Step 4: Info -->
+<div id="step-4" class="step-content" style="display:none">
+<div class="gift-toggle">
+<input type="checkbox" id="isGift" onchange="toggleGift()">
+<label for="isGift" style="cursor:pointer;flex:1" data-en="🎁 This is a gift booking" data-uk="🎁 Це подарунковий запис">🎁 This is a gift booking</label>
+</div>
 
-      <!-- BROWS -->
-      <div class="panel">
-        <div class="service-cat-title">✨ <span id="txt-cat-brows">Brows</span></div>
-        <div id="services-brows"></div>
-      </div>
+<div id="giftFields" style="display:none">
+<div class="field">
+<label data-en="Recipient name" data-uk="Ім'я отримувача">Recipient name</label>
+<input type="text" id="giftRecipient" placeholder="Mary">
+</div>
+<div class="field">
+<label data-en="Recipient contact (optional)" data-uk="Контакт отримувача">Recipient contact</label>
+<input type="text" id="giftContact" placeholder="+1...">
+</div>
+</div>
 
-      <!-- Total -->
-      <div class="total-bar" id="total-bar" style="display:none">
-        <div>
-          <div class="total-label" id="txt-total">Total</div>
-          <div class="total-value" id="total-price">$0</div>
-        </div>
-        <div class="total-duration">
-          <div id="total-duration">0 min</div>
-          <div style="font-size:9px;margin-top:2px;color:var(--text-muted)" id="txt-duration">Duration</div>
-        </div>
-      </div>
+<div class="field">
+<label data-en="Your name *" data-uk="Ваше ім'я *">Your name *</label>
+<input type="text" id="clientName" placeholder="John Smith" required>
+</div>
 
-      <button class="btn-primary" id="btn-to-datetime" onclick="goTo('view-datetime')" disabled id="btn-next-services">
-        <span id="txt-choose-date">Choose Date & Time →</span>
-      </button>
-      <button class="btn-secondary" onclick="goTo('view-home')" id="btn-back-home">← Back</button>
-    </div>
-  </div>
+<div class="field">
+<label data-en="Phone *" data-uk="Телефон *">Phone *</label>
+<input type="tel" id="clientPhone" placeholder="+1 (905) 123-4567" required>
+</div>
 
-  <!-- DATE & TIME VIEW -->
-  <div class="view" id="view-datetime">
-    <div class="section" style="padding-top: 40px;">
-      <div class="section-label" id="txt-step2">Step 2 — Date & Time</div>
+<div class="field">
+<label data-en="Email (for confirmation)" data-uk="Email (для підтвердження)">Email</label>
+<input type="email" id="clientEmail" placeholder="you@email.com">
+</div>
 
-      <div class="panel">
-        <div class="cal-month-nav">
-          <button class="cal-nav-btn" onclick="prevMonth()">‹</button>
-          <div class="cal-month-title" id="cal-month-title"></div>
-          <button class="cal-nav-btn" onclick="nextMonth()">›</button>
-        </div>
-        <div class="calendar-grid" id="calendar-grid"></div>
-      </div>
+<div class="field">
+<label data-en="Notes (optional)" data-uk="Примітки">Notes</label>
+<textarea id="clientNotes" placeholder=""></textarea>
+</div>
 
-      <div class="panel" id="time-panel" style="display:none">
-        <div class="section-label" id="txt-available-times">Available Times</div>
-        <div class="duration-note" id="txt-duration-note"></div>
-        <div class="time-grid" id="time-grid"></div>
-      </div>
+<button class="btn-book" onclick="nextStep()" data-en="Continue →" data-uk="Далі →">Continue →</button>
+</div>
 
-      <button class="btn-primary" id="btn-to-client" onclick="goTo('view-client')" disabled>
-        <span id="txt-your-info">Your Info →</span>
-      </button>
-      <button class="btn-secondary" onclick="goTo('view-services')" id="btn-back-services">← Back</button>
-    </div>
-  </div>
+<!-- Step 5: Confirm -->
+<div id="step-5" class="step-content" style="display:none">
+<div class="confirm-card" id="confirmCard"></div>
+<div class="note" data-en="After confirmation, Olya will review your request and send you a final confirmation within 2 hours." data-uk="Після підтвердження Оля перегляне ваш запит і надішле остаточне підтвердження протягом 2 годин.">After confirmation, Olya will review your request and send you a final confirmation within 2 hours.</div>
+<button class="btn-book" id="btnSubmit" onclick="submitBooking()" data-en="✓ Confirm Booking" data-uk="✓ Підтвердити запис">✓ Confirm Booking</button>
+</div>
+</div>
 
-  <!-- CLIENT INFO VIEW -->
-  <div class="view" id="view-client">
-    <div class="section" style="padding-top: 40px;">
-      <div class="section-label" id="txt-step3">Step 3 — Your Info</div>
+<!-- SUCCESS SCREEN -->
+<div id="screen-success" class="screen">
+<div class="success-screen">
+<div class="success-icon">✨</div>
+<div class="success-title" data-en="Thank You!" data-uk="Дякуємо!">Thank You!</div>
+<div class="success-text" data-en="Your booking has been received. Olya will confirm within 2 hours." data-uk="Ваш запис прийнято. Оля підтвердить протягом 2 годин.">Your booking has been received. Olya will confirm within 2 hours.</div>
+<button class="btn-book" onclick="goScreen('home')" data-en="Back to Home" data-uk="На головну">Back to Home</button>
+</div>
+</div>
 
-      <div class="panel">
-        <div class="input-group">
-          <label class="input-label" id="lbl-name">Your Name</label>
-          <input class="input-field" type="text" id="input-name" placeholder="e.g. Sarah">
-        </div>
-        <div class="input-group">
-          <label class="input-label" id="lbl-phone">Phone</label>
-          <input class="input-field" type="tel" id="input-phone" placeholder="+1 (905) 000-0000">
-        </div>
-        <div class="input-group">
-          <label class="input-label" id="lbl-email">Email</label>
-          <input class="input-field" type="email" id="input-email" placeholder="your@email.com">
-        </div>
-        <div class="input-group">
-          <label class="input-label" id="lbl-notes">Special Wishes / Notes</label>
-          <textarea class="notes-field" id="input-notes" placeholder="e.g. broken nail, specific design idea..."></textarea>
-        </div>
-      </div>
+<!-- APPOINTMENTS SCREEN -->
+<div id="screen-appointments" class="screen">
+<div class="screen-head">
+<button class="back-btn" onclick="goScreen('home')">←</button>
+<div class="screen-title" data-en="My Appointments" data-uk="Мої записи">My Appointments</div>
+</div>
+<div class="empty-state">
+<div class="ico">📅</div>
+<div data-en="To view your appointments, please use the link from your confirmation email or contact Olya directly." data-uk="Для перегляду записів використайте посилання з email або зв'яжіться з Олею.">To view your appointments, please use the link from your confirmation email.</div>
+</div>
+</div>
 
-      <!-- Photo upload -->
-      <div class="panel">
-        <div class="section-label" id="txt-inspo">Inspiration Photo (optional)</div>
-        <div class="upload-area" onclick="document.getElementById('photo-input').click()">
-          <div class="upload-icon">📸</div>
-          <div class="upload-text">
-            <strong id="txt-upload-tap">Tap to upload</strong><br>
-            <span id="txt-upload-sub">Share a photo of the design you love</span>
-          </div>
-        </div>
-        <input type="file" id="photo-input" accept="image/*" style="display:none" multiple onchange="previewPhotos(event)">
-        <div class="upload-preview" id="upload-preview"></div>
-      </div>
+<!-- PROFILE SCREEN -->
+<div id="screen-profile" class="screen">
+<div class="screen-head">
+<button class="back-btn" onclick="goScreen('home')">←</button>
+<div class="screen-title" data-en="About" data-uk="Про студію">About</div>
+</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px">
+<h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);font-weight:400;margin-bottom:12px">Olka Studio</h3>
+<div style="line-height:1.8;font-size:14px;color:var(--muted)">
+<div>📍 15 Olga St, Hamilton, ON</div>
+<div>📧 olkapylypchuk@gmail.com</div>
+<div data-en="🕐 Mon-Sat: 8:00 AM - 8:00 PM" data-uk="🕐 Пн-Сб: 8:00 - 20:00">🕐 Mon-Sat: 8:00 AM - 8:00 PM</div>
+<div data-en="🚫 Sunday: Closed" data-uk="🚫 Неділя: вихідний">🚫 Sunday: Closed</div>
+<div style="margin-top:10px" data-en="📋 By appointment only" data-uk="📋 Тільки за записом">📋 By appointment only</div>
+</div>
+</div>
+</div>
 
-      <!-- Gift option -->
-      <div class="gift-card" id="gift-toggle" onclick="toggleGift()">
-        <div class="gift-icon">🎁</div>
-        <div class="gift-title" id="txt-gift-title">Booking as a Gift?</div>
-        <div class="gift-sub" id="txt-gift-sub">Order manicure for a friend or family member. We'll send them a surprise notification.</div>
-      </div>
-
-      <div id="gift-fields" style="display:none">
-        <div class="panel">
-          <div class="input-group">
-            <label class="input-label" id="lbl-gift-name">Recipient Name</label>
-            <input class="input-field" type="text" id="input-gift-name" placeholder="e.g. Mom / Julia">
-          </div>
-          <div class="input-group">
-            <label class="input-label" id="lbl-gift-phone">Recipient Phone or Email</label>
-            <input class="input-field" id="input-gift-contact" placeholder="how to reach them?">
-          </div>
-          <div class="input-group">
-            <label class="input-label" id="lbl-gift-msg">Personal Message (optional)</label>
-            <textarea class="notes-field" id="input-gift-msg" placeholder="Happy Birthday! ✨"></textarea>
-          </div>
-          <div style="font-size:11px;color:var(--text-muted);line-height:1.6;padding:10px;background:rgba(201,169,110,.05);border-radius:10px;margin-top:4px">
-            ⚠️ <span id="txt-gift-price-note">Note: Final price will be confirmed by Olya after reviewing the design. You will receive a payment link.</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="goTo('view-notify')" id="btn-to-notify">
-        <span id="txt-next-notify">Notifications →</span>
-      </button>
-      <button class="btn-secondary" onclick="goTo('view-datetime')" id="btn-back-dt">← Back</button>
-    </div>
-  </div>
-
-  <!-- NOTIFICATIONS VIEW -->
-  <div class="view" id="view-notify">
-    <div class="section" style="padding-top: 40px;">
-      <div class="section-label" id="txt-step4">Step 4 — Stay Updated</div>
-
-      <div class="panel">
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.6" id="txt-notify-desc">
-          Choose how Olya should reach you with confirmations and updates:
-        </p>
-
-        <div class="notify-option">
-          <div class="notify-left">
-            <div class="notify-icon">📱</div>
-            <div>
-              <div class="notify-name">SMS</div>
-              <div class="notify-sub" id="txt-sms-sub">Text message to your phone</div>
-            </div>
-          </div>
-          <div class="toggle on" id="toggle-sms" onclick="toggleNotify('sms')"><div class="toggle-knob"></div></div>
-        </div>
-
-        <div class="notify-option">
-          <div class="notify-left">
-            <div class="notify-icon">📧</div>
-            <div>
-              <div class="notify-name">Email</div>
-              <div class="notify-sub" id="txt-email-sub">Booking confirmation to inbox</div>
-            </div>
-          </div>
-          <div class="toggle on" id="toggle-email" onclick="toggleNotify('email')"><div class="toggle-knob"></div></div>
-        </div>
-
-        <div class="notify-option">
-          <div class="notify-left">
-            <div class="notify-icon">✈️</div>
-            <div>
-              <div class="notify-name">Telegram</div>
-              <div class="notify-sub" id="txt-tg-sub">Fast & easy via Telegram bot</div>
-            </div>
-          </div>
-          <div class="toggle" id="toggle-tg" onclick="toggleNotify('tg')"><div class="toggle-knob"></div></div>
-        </div>
-
-        <div class="notify-option">
-          <div class="notify-left">
-            <div class="notify-icon">📸</div>
-            <div>
-              <div class="notify-name">Instagram DM</div>
-              <div class="notify-sub" id="txt-ig-sub">Updates via Instagram direct</div>
-            </div>
-          </div>
-          <div class="toggle" id="toggle-ig" onclick="toggleNotify('ig')"><div class="toggle-knob"></div></div>
-        </div>
-
-        <div id="ig-handle-row" style="display:none;margin-top:10px">
-          <input class="input-field" placeholder="Your @instagram handle" id="input-ig-handle">
-        </div>
-
-        <div class="notify-option">
-          <div class="notify-left">
-            <div class="notify-icon">📘</div>
-            <div>
-              <div class="notify-name">Facebook Messenger</div>
-              <div class="notify-sub" id="txt-fb-sub">Message via Messenger</div>
-            </div>
-          </div>
-          <div class="toggle" id="toggle-fb" onclick="toggleNotify('fb')"><div class="toggle-knob"></div></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-size:14px" id="txt-promo">Subscribe to Promotions</div>
-            <div style="font-size:11px;color:var(--text-muted);margin-top:2px" id="txt-promo-sub">New designs, seasonal offers, discounts</div>
-          </div>
-          <div class="toggle" id="toggle-promo" onclick="toggleNotify('promo')"><div class="toggle-knob"></div></div>
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="goTo('view-confirm')" id="btn-to-confirm">
-        <span id="txt-review">Review & Confirm →</span>
-      </button>
-      <button class="btn-secondary" onclick="goTo('view-client')" id="btn-back-client">← Back</button>
-    </div>
-  </div>
-
-  <!-- CONFIRM VIEW -->
-  <div class="view" id="view-confirm">
-    <div class="section" style="padding-top: 40px;">
-      <div class="section-label" id="txt-step5">Step 5 — Confirm</div>
-
-      <div class="confirm-card">
-        <div style="margin-bottom:16px">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light)">Olka Studio</div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Hamilton, Ontario</div>
-        </div>
-        <div class="confirm-details" id="confirm-details"></div>
-        <div style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-top:12px;padding:12px;background:rgba(255,255,255,.03);border-radius:10px" id="txt-confirm-note">
-          After confirmation, Olya will review your request and send you a final confirmation within 2 hours.
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="submitBooking()" id="btn-confirm-final">
-        ✦ <span id="txt-confirm-btn">Confirm Booking</span>
-      </button>
-      <button class="btn-secondary" onclick="goTo('view-notify')" id="btn-back-notify">← Back</button>
-    </div>
-  </div>
-
-  <!-- SUCCESS VIEW -->
-  <div class="view" id="view-success">
-    <div class="section" style="padding-top: 60px;">
-      <div class="confirm-card">
-        <div class="confirm-check">✨</div>
-        <div class="confirm-title" id="txt-success-title">Booking Sent!</div>
-        <div class="confirm-sub" id="txt-success-sub">
-          Thank you! Olya will confirm your appointment soon.<br>Check your phone / email for updates.
-        </div>
-        <div class="confirm-details" id="success-details"></div>
-      </div>
-
-      <button class="btn-primary" onclick="startOver()" style="margin-top:20px" id="btn-book-another">
-        Book Another
-      </button>
-    </div>
-  </div>
-
-  <!-- APPOINTMENTS VIEW -->
-  <div class="view" id="view-appointments">
-    <div class="section" style="padding-top:40px">
-      <div class="section-label" id="txt-my-appointments">My Appointments</div>
-      <div class="panel" style="text-align:center;padding:40px 20px">
-        <div style="font-size:32px;margin-bottom:12px">🗓</div>
-        <div style="font-size:14px;color:var(--text-muted)" id="txt-no-appts">No appointments yet.<br>Book your first session!</div>
-        <button class="btn-primary" style="margin-top:20px" onclick="goTab('book')" id="btn-book-first">Book Now</button>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /page-content -->
+</div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <div class="nav-tab active" id="tab-home" onclick="goTab('home')">
-    <div class="nav-icon">🏠</div>
-    <div class="nav-label" id="nav-home">Home</div>
-  </div>
-  <div class="nav-tab" id="tab-book" onclick="goTab('book')">
-    <div class="nav-icon">📋</div>
-    <div class="nav-label" id="nav-book">Book</div>
-  </div>
-  <div class="nav-tab" id="tab-appointments" onclick="goTab('appointments')">
-    <div class="nav-icon">🗓</div>
-    <div class="nav-label" id="nav-appts">Appointments</div>
-  </div>
-  <div class="nav-tab" id="tab-profile" onclick="goTab('profile')">
-    <div class="nav-icon">👤</div>
-    <div class="nav-label" id="nav-profile">Profile</div>
-  </div>
+<button class="nav-item on" id="nav-home" onclick="goScreen('home')">
+<span class="ico">🏠</span><span data-en="Home" data-uk="Головна">Home</span>
+</button>
+<button class="nav-item" id="nav-book" onclick="goScreen('booking');resetBooking()">
+<span class="ico">📋</span><span data-en="Book" data-uk="Запис">Book</span>
+</button>
+<button class="nav-item" id="nav-appointments" onclick="goScreen('appointments')">
+<span class="ico">📅</span><span data-en="Appts" data-uk="Записи">Appts</span>
+</button>
+<button class="nav-item" id="nav-profile" onclick="goScreen('profile')">
+<span class="ico">👤</span><span data-en="Profile" data-uk="Профіль">Profile</span>
+</button>
+<button class="nav-item crown" onclick="window.location.href='/admin.html'">
+<span class="ico">👑</span><span>Admin</span>
+</button>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────
-const SERVICES = {
-  hands: [
-    { id:'h1', en:'Manicure (no polish)',        uk:'Манікюр без покриття',           price:35, min:60  },
-    { id:'h2', en:'Manicure + regular polish',   uk:'Манікюр з покриттям (лак)',       price:45, min:90  },
-    { id:'h3', en:'Manicure + gel polish',        uk:'Манікюр з гель-лаком',           price:55, min:90  },
-    { id:'h4', en:'Paraffin therapy (hands)',     uk:'Парафінотерапія (руки)',          price:35, min:60  },
-    { id:'h5', en:'Single nail extension',        uk:'Нарощення одного нігтя',          price:7,  min:15  },
-    { id:'h6', en:'Single nail design',           uk:'Дизайн одного нігтя',            price:3,  min:5   },
-  ],
-  feet: [
-    { id:'f1', en:'Cosmetic pedicure (full)',     uk:'Косметичний педікюр (вся стопа)', price:50, min:90  },
-    { id:'f2', en:'Regular polish (pedicure)',    uk:'Покриття лаком (педікюр)',        price:5,  min:30  },
-    { id:'f3', en:'Gel polish (pedicure)',        uk:'Гель-лак (педікюр)',              price:10, min:30  },
-    { id:'f4', en:'Cosmetic pedicure (toes only)',uk:'Косметичний педікюр (пальці)',    price:30, min:30  },
-    { id:'f5', en:'Paraffin therapy (feet)',      uk:'Парафінотерапія (стопи)',         price:45, min:60  },
-  ],
-  brows: [
-    { id:'b1', en:'Brow shaping',                uk:'Корекція брів',                  price:10, min:30  },
-    { id:'b2', en:'Brow tinting',                uk:'Фарбування брів',                price:10, min:30  },
-    { id:'b3', en:'Brow lamination',             uk:'Ламінування брів',               price:15, min:30  },
-  ]
-};
-
-// ── STATE ─────────────────────────────────────────────────────────────
-let lang = 'en';
-let selected = new Set();
-let selectedDate = null;
-let selectedTime = null;
-let calYear, calMonth;
-let isGift = false;
-let notifyToggles = { sms:true, email:true, tg:false, ig:false, fb:false, promo:false };
-
-const today = new Date();
-calYear = today.getFullYear();
-calMonth = today.getMonth();
-
-// ── LANGUAGE ──────────────────────────────────────────────────────────
-const T = {
-  en: {
-    eyebrow:'Nail & Beauty Studio', tagline:'Handcrafted beauty · Hamilton, ON',
-    recent:'Recent Work', bookNow:'Book Now', btnBook:'✦  Book Appointment',
-    btnMyAppts:'My Appointments', step1:'Step 1 — Choose Services', catHands:'Hands',
-    catFeet:'Feet (Pedicure)', catBrows:'Brows', total:'Total', duration:'Duration',
-    chooseDate:'Choose Date & Time →', step2:'Step 2 — Date & Time', availTimes:'Available Times',
-    yourInfo:'Your Info →', step3:'Step 3 — Your Info', name:'Your Name', phone:'Phone',
-    email:'Email', notes:'Special Wishes / Notes', inspo:'Inspiration Photo (optional)',
-    uploadTap:'Tap to upload', uploadSub:'Share a photo of the design you love',
-    giftTitle:'Booking as a Gift?',
-    giftSub:'Order manicure for a friend or family member. We\'ll send them a surprise notification.',
-    giftName:'Recipient Name', giftPhone:'Recipient Phone or Email', giftMsg:'Personal Message (optional)',
-    giftPriceNote:'Note: Final price will be confirmed by Olya after reviewing the design. You will receive a payment link.',
-    nextNotify:'Notifications →', step4:'Step 4 — Stay Updated',
-    notifyDesc:'Choose how Olya should reach you with confirmations and updates:',
-    smsSub:'Text message to your phone', emailSub:'Booking confirmation to inbox',
-    tgSub:'Fast & easy via Telegram bot', igSub:'Updates via Instagram direct',
-    fbSub:'Message via Messenger', promo:'Subscribe to Promotions',
-    promoSub:'New designs, seasonal offers, discounts', review:'Review & Confirm →',
-    step5:'Step 5 — Confirm',
-    confirmNote:'After confirmation, Olya will review your request and send you a final confirmation within 2 hours.',
-    confirmBtn:'Confirm Booking', successTitle:'Booking Sent!',
-    successSub:'Thank you! Olya will confirm your appointment soon.\nCheck your phone / email for updates.',
-    bookAnother:'Book Another', myAppts:'My Appointments',
-    noAppts:'No appointments yet.\nBook your first session!', bookFirst:'Book Now',
-    navHome:'Home', navBook:'Book', navAppts:'Appointments', navProfile:'Profile',
-    back:'← Back',
-  },
-  uk: {
-    eyebrow:'Студія нігтів та краси', tagline:'Авторська краса · Гамільтон, ON',
-    recent:'Останні роботи', bookNow:'Записатися', btnBook:'✦  Записатися',
-    btnMyAppts:'Мої записи', step1:'Крок 1 — Оберіть послуги', catHands:'Руки',
-    catFeet:'Ноги (Педікюр)', catBrows:'Брови', total:'Разом', duration:'Тривалість',
-    chooseDate:'Обрати дату та час →', step2:'Крок 2 — Дата та час', availTimes:'Доступний час',
-    yourInfo:'Ваші дані →', step3:'Крок 3 — Ваші дані', name:'Ваше ім\'я', phone:'Телефон',
-    email:'Ел. пошта', notes:'Побажання / Нотатки', inspo:'Фото-натхнення (за бажанням)',
-    uploadTap:'Натисніть для завантаження', uploadSub:'Поділіться фото ідеї для дизайну',
-    giftTitle:'Записуєте в подарунок?',
-    giftSub:'Замовте манікюр для подруги або члена сім\'ї. Ми надішлемо їм сюрприз-сповіщення.',
-    giftName:'Ім\'я отримувача', giftPhone:'Телефон або email отримувача', giftMsg:'Особисте повідомлення (за бажанням)',
-    giftPriceNote:'Примітка: кінцева ціна буде підтверджена Олею після перегляду дизайну. Ви отримаєте посилання для оплати.',
-    nextNotify:'Сповіщення →', step4:'Крок 4 — Залишайтеся в курсі',
-    notifyDesc:'Оберіть, як Оля має вас повідомляти про підтвердження та оновлення:',
-    smsSub:'SMS на ваш телефон', emailSub:'Підтвердження на пошту',
-    tgSub:'Швидко та зручно через Telegram-бот', igSub:'Оновлення в Instagram Direct',
-    fbSub:'Повідомлення через Messenger', promo:'Підписатися на акції',
-    promoSub:'Нові дизайни, сезонні пропозиції, знижки', review:'Переглянути та підтвердити →',
-    step5:'Крок 5 — Підтвердження',
-    confirmNote:'Після підтвердження Оля розгляне ваш запит і надішле фінальне підтвердження протягом 2 годин.',
-    confirmBtn:'Підтвердити запис', successTitle:'Запис надіслано!',
-    successSub:'Дякуємо! Оля незабаром підтвердить ваш запис.\nПеревірте телефон / пошту.',
-    bookAnother:'Записатися ще', myAppts:'Мої записи',
-    noAppts:'Поки немає записів.\nЗапишіться на першу процедуру!', bookFirst:'Записатися',
-    navHome:'Головна', navBook:'Запис', navAppts:'Записи', navProfile:'Профіль',
-    back:'← Назад',
-  }
-};
-
-function t(key) { return T[lang][key] || T.en[key] || key; }
-
-function setLang(l) {
-  lang = l;
-  document.getElementById('btn-en').classList.toggle('active', l==='en');
-  document.getElementById('btn-uk').classList.toggle('active', l==='uk');
-  applyTranslations();
+// ===== LANGUAGE =====
+var LANG = localStorage.getItem('olka_lang') || 'en';
+function setLang(l){
+  LANG = l;
+  localStorage.setItem('olka_lang',l);
+  document.getElementById('langEn').classList.toggle('on',l==='en');
+  document.getElementById('langUk').classList.toggle('on',l==='uk');
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    el.textContent = el.getAttribute('data-'+l);
+  });
+  document.querySelectorAll('[data-en-placeholder]').forEach(function(el){
+    el.placeholder = el.getAttribute('data-'+l+'-placeholder');
+  });
   renderServices();
   renderCalendar();
-  if (selectedDate) renderTimeSlots();
+  updateStepLabel();
 }
 
-function applyTranslations() {
-  const ids = ['eyebrow','tagline','recent','bookNow','step1','catHands','catFeet','catBrows',
-    'total','duration','chooseDate','step2','availTimes','yourInfo','step3','name','phone',
-    'email','notes','inspo','uploadTap','uploadSub','giftTitle','giftSub','giftName','giftPhone',
-    'giftMsg','giftPriceNote','nextNotify','step4','notifyDesc','smsSub','emailSub','tgSub',
-    'igSub','fbSub','promo','promoSub','review','step5','confirmNote','confirmBtn','successTitle',
-    'successSub','bookAnother','myAppts','noAppts','bookFirst','navHome','navBook','navAppts','navProfile'];
-
-  const map = {
-    eyebrow: 'txt-eyebrow', tagline:'txt-tagline', recent:'txt-recent', bookNow:'txt-book-now',
-    step1:'txt-step1', catHands:'txt-cat-hands', catFeet:'txt-cat-feet', catBrows:'txt-cat-brows',
-    total:'txt-total', duration:'txt-duration', chooseDate:'txt-choose-date', step2:'txt-step2',
-    availTimes:'txt-available-times', yourInfo:'txt-your-info', step3:'txt-step3',
-    name:'lbl-name', phone:'lbl-phone', email:'lbl-email', notes:'lbl-notes',
-    inspo:'txt-inspo', uploadTap:'txt-upload-tap', uploadSub:'txt-upload-sub',
-    giftTitle:'txt-gift-title', giftSub:'txt-gift-sub', giftName:'lbl-gift-name',
-    giftPhone:'lbl-gift-phone', giftMsg:'lbl-gift-msg', giftPriceNote:'txt-gift-price-note',
-    nextNotify:'txt-next-notify', step4:'txt-step4', notifyDesc:'txt-notify-desc',
-    smsSub:'txt-sms-sub', emailSub:'txt-email-sub', tgSub:'txt-tg-sub', igSub:'txt-ig-sub',
-    fbSub:'txt-fb-sub', promo:'txt-promo', promoSub:'txt-promo-sub', review:'txt-review',
-    step5:'txt-step5', confirmNote:'txt-confirm-note', confirmBtn:'txt-confirm-btn',
-    successTitle:'txt-success-title', successSub:'txt-success-sub', bookAnother:'btn-book-another',
-    myAppts:'txt-my-appointments', noAppts:'txt-no-appts', bookFirst:'btn-book-first',
-    navHome:'nav-home', navBook:'nav-book', navAppts:'nav-appts', navProfile:'nav-profile'
-  };
-
-  for (const [key, id] of Object.entries(map)) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = t(key);
+// ===== SERVICES DATA =====
+var SERVICES = {
+  hands: {
+    en: 'Hands · Manicure',
+    uk: 'Руки · Манікюр',
+    items: [
+      {id:'h1', en:'Manicure (no polish)', uk:'Манікюр без покриття', price:35, min:60},
+      {id:'h2', en:'Manicure + regular polish', uk:'Манікюр + звичайний лак', price:45, min:90},
+      {id:'h3', en:'Manicure + gel polish', uk:'Манікюр + гель-лак', price:55, min:90},
+      {id:'h4', en:'Paraffin treatment', uk:'Парафінотерапія', price:35, min:60},
+      {id:'h5', en:'Single nail extension', uk:'Нарощування 1 нігтя', price:7, min:15},
+      {id:'h6', en:'Single nail design', uk:'Дизайн 1 нігтя', price:3, min:5}
+    ]
+  },
+  feet: {
+    en: 'Feet · Pedicure',
+    uk: 'Ноги · Педикюр',
+    items: [
+      {id:'f1', en:'Cosmetic Pedicure (full)', uk:'Косметичний педикюр', price:50, min:90},
+      {id:'f2', en:'Pedicure + regular polish', uk:'Педикюр + звичайний лак', price:55, min:120},
+      {id:'f3', en:'Pedicure + gel polish', uk:'Педикюр + гель-лак', price:60, min:120},
+      {id:'f4', en:'Toes only', uk:'Тільки пальці', price:30, min:30},
+      {id:'f5', en:'Paraffin feet', uk:'Парафін для ніг', price:45, min:60}
+    ]
+  },
+  brows: {
+    en: 'Brows',
+    uk: 'Брови',
+    items: [
+      {id:'b1', en:'Brow shaping', uk:'Корекція брів', price:10, min:30},
+      {id:'b2', en:'Brow tinting', uk:'Фарбування брів', price:10, min:30},
+      {id:'b3', en:'Brow lamination', uk:'Ламінування брів', price:15, min:30}
+    ]
   }
-  // buttons that contain spans
-  const btnMap = { btnBook:'btn-book', btnMyAppts:'btn-my-appts' };
-  for(const [key,id] of Object.entries(btnMap)){
-    const el=document.getElementById(id);
-    if(el) el.textContent = t(key);
-  }
-}
+};
 
-// ── NAVIGATION ────────────────────────────────────────────────────────
-function goTo(viewId) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(viewId).classList.add('active');
+// ===== STATE =====
+var state = {
+  step: 1,
+  selectedServices: [],
+  date: null,
+  time: null,
+  isGift: false
+};
+
+var currentMonth = new Date();
+currentMonth.setDate(1);
+
+// ===== NAVIGATION =====
+function goScreen(name){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('screen-'+name).classList.add('on');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
+  var navMap = {home:'nav-home',booking:'nav-book',appointments:'nav-appointments',profile:'nav-profile'};
+  if(navMap[name]) document.getElementById(navMap[name]).classList.add('on');
   window.scrollTo(0,0);
-
-  if (viewId === 'view-confirm') buildConfirmView();
-  if (viewId === 'view-services') renderServices();
-  if (viewId === 'view-datetime') { renderCalendar(); }
 }
 
-function goTab(tab) {
-  const map = { home:'view-home', book:'view-services', appointments:'view-appointments', profile:'view-home' };
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-'+tab)?.classList.add('active');
-  goTo(map[tab] || 'view-home');
+function resetBooking(){
+  state = {step:1, selectedServices:[], date:null, time:null, isGift:false};
+  document.getElementById('clientName').value='';
+  document.getElementById('clientPhone').value='';
+  document.getElementById('clientEmail').value='';
+  document.getElementById('clientNotes').value='';
+  document.getElementById('isGift').checked=false;
+  document.getElementById('giftRecipient').value='';
+  document.getElementById('giftContact').value='';
+  document.getElementById('giftFields').style.display='none';
+  showStep(1);
+  renderServices();
+  updateSummary();
 }
 
-// ── SERVICES ──────────────────────────────────────────────────────────
-function renderServices() {
-  ['hands','feet','brows'].forEach(cat => {
-    const container = document.getElementById('services-'+cat);
-    container.innerHTML = '';
-    SERVICES[cat].forEach(s => {
-      const isSelected = selected.has(s.id);
-      const div = document.createElement('div');
-      div.className = 'service-item' + (isSelected ? ' selected' : '');
-      div.innerHTML = `
-        <div>
-          <div class="service-name">${lang==='uk'?s.uk:s.en}</div>
-          <div class="service-meta">${formatDuration(s.min)}</div>
-        </div>
-        <div class="service-right">
-          <div>
-            <div class="service-price">$${s.price}</div>
-            <div class="service-time">${formatDuration(s.min)}</div>
-          </div>
-          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,9 11,1" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
-        </div>`;
-      div.onclick = () => toggleService(s.id);
-      container.appendChild(div);
+function showStep(n){
+  state.step = n;
+  for(var i=1;i<=5;i++){
+    document.getElementById('step-'+i).style.display = (i===n)?'block':'none';
+    document.querySelector('.step-dot[data-step="'+i+'"]').classList.toggle('on', i<=n);
+  }
+  updateStepLabel();
+  if(n===2) renderCalendar();
+  if(n===3) renderTimeSlots();
+  if(n===5) renderConfirm();
+}
+
+function updateStepLabel(){
+  var titles = {
+    1: {en:'Services', uk:'Послуги'},
+    2: {en:'Choose Date', uk:'Виберіть дату'},
+    3: {en:'Choose Time', uk:'Виберіть час'},
+    4: {en:'Your Info', uk:'Ваші дані'},
+    5: {en:'Confirm', uk:'Підтвердження'}
+  };
+  document.getElementById('stepTitle').textContent = titles[state.step][LANG];
+  document.getElementById('stepLabel').textContent = (LANG==='uk'?'Крок ':'Step ')+state.step+(LANG==='uk'?' з 5 · ':' of 5 · ')+titles[state.step][LANG];
+}
+
+function nextStep(){
+  if(state.step===1 && state.selectedServices.length===0){alert(LANG==='uk'?'Виберіть послуги':'Select services');return;}
+  if(state.step===2 && !state.date){alert(LANG==='uk'?'Виберіть дату':'Select date');return;}
+  if(state.step===3 && !state.time){alert(LANG==='uk'?'Виберіть час':'Select time');return;}
+  if(state.step===4){
+    var name = document.getElementById('clientName').value.trim();
+    var phone = document.getElementById('clientPhone').value.trim();
+    if(!name){
+      document.getElementById('clientName').classList.add('err');
+      alert(LANG==='uk'?"Введіть ваше ім'я":'Enter your name');
+      return;
+    }
+    if(!phone){
+      document.getElementById('clientPhone').classList.add('err');
+      alert(LANG==='uk'?'Введіть телефон':'Enter phone');
+      return;
+    }
+    document.getElementById('clientName').classList.remove('err');
+    document.getElementById('clientPhone').classList.remove('err');
+  }
+  if(state.step<5) showStep(state.step+1);
+}
+
+function prevStep(){
+  if(state.step>1){showStep(state.step-1);}
+  else{goScreen('home');}
+}
+
+// ===== SERVICES RENDERING =====
+function renderServices(){
+  var html = '';
+  Object.keys(SERVICES).forEach(function(group){
+    var g = SERVICES[group];
+    html += '<div class="svc-group"><h3>'+g[LANG]+'</h3>';
+    g.items.forEach(function(s){
+      var on = state.selectedServices.indexOf(s.id) > -1;
+      html += '<div class="svc'+(on?' on':'')+'" onclick="toggleService(\''+s.id+'\')">'
+            + '<div class="svc-info"><div class="svc-name">'+s[LANG]+'</div>'
+            + '<div class="svc-time">⏱ '+s.min+(LANG==='uk'?' хв':' min')+'</div></div>'
+            + '<div class="svc-price">$'+s.price+'</div>'
+            + '<div class="svc-check">✓</div></div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('servicesList').innerHTML = html;
+}
+
+function toggleService(id){
+  var idx = state.selectedServices.indexOf(id);
+  if(idx>-1) state.selectedServices.splice(idx,1);
+  else state.selectedServices.push(id);
+  renderServices();
+  updateSummary();
+}
+
+function getSelectedServiceData(){
+  var result = [];
+  Object.keys(SERVICES).forEach(function(group){
+    SERVICES[group].items.forEach(function(s){
+      if(state.selectedServices.indexOf(s.id)>-1) result.push(s);
     });
   });
-  updateTotal();
+  return result;
 }
 
-function toggleService(id) {
-  if (selected.has(id)) selected.delete(id);
-  else selected.add(id);
-  renderServices();
+function getTotalDuration(){
+  return getSelectedServiceData().reduce(function(t,s){return t+s.min;},0);
+}
+function getTotalPrice(){
+  return getSelectedServiceData().reduce(function(t,s){return t+s.price;},0);
 }
 
-function formatDuration(min) {
-  if (min < 60) return min + ' min';
-  const h = Math.floor(min/60), m = min%60;
-  return h + 'h' + (m ? ' ' + m + 'min' : '');
-}
-
-function getTotalPrice() {
-  let p = 0;
-  selected.forEach(id => {
-    const s = allServices().find(x => x.id===id);
-    if (s) p += s.price;
-  });
-  return p;
-}
-
-function getTotalDuration() {
-  let d = 0;
-  selected.forEach(id => {
-    const s = allServices().find(x => x.id===id);
-    if (s) d += s.min;
-  });
-  return d;
-}
-
-function allServices() {
-  return [...SERVICES.hands, ...SERVICES.feet, ...SERVICES.brows];
-}
-
-function updateTotal() {
-  const p = getTotalPrice(), d = getTotalDuration();
-  const bar = document.getElementById('total-bar');
-  bar.style.display = selected.size > 0 ? 'flex' : 'none';
-  document.getElementById('total-price').textContent = '$' + p;
-  document.getElementById('total-duration').textContent = formatDuration(d);
-  document.getElementById('btn-to-datetime').disabled = selected.size === 0;
-}
-
-// ── CALENDAR ──────────────────────────────────────────────────────────
-const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const MONTHS_UK = ['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
-const DAYS_EN = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-const DAYS_UK = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
-
-function renderCalendar() {
-  const months = lang==='uk' ? MONTHS_UK : MONTHS_EN;
-  const days = lang==='uk' ? DAYS_UK : DAYS_EN;
-  document.getElementById('cal-month-title').textContent = months[calMonth] + ' ' + calYear;
-
-  const grid = document.getElementById('calendar-grid');
-  grid.innerHTML = '';
-
-  days.forEach(d => {
-    const h = document.createElement('div');
-    h.className = 'cal-header';
-    h.textContent = d;
-    grid.appendChild(h);
-  });
-
-  const firstDay = new Date(calYear, calMonth, 1).getDay();
-  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-
-  for (let i=0; i<firstDay; i++) {
-    const e = document.createElement('div');
-    e.className = 'cal-day empty';
-    grid.appendChild(e);
-  }
-
-  for (let d=1; d<=daysInMonth; d++) {
-    const date = new Date(calYear, calMonth, d);
-    const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const isSun = date.getDay() === 0;
-    const isToday = d===today.getDate() && calMonth===today.getMonth() && calYear===today.getFullYear();
-    const isSelected = selectedDate && selectedDate.getDate()===d && selectedDate.getMonth()===calMonth && selectedDate.getFullYear()===calYear;
-
-    const el = document.createElement('div');
-    el.textContent = d;
-    el.className = 'cal-day' + (isPast||isSun?' disabled':'') + (isToday?' today':'') + (isSelected?' selected':'');
-    if (!isPast && !isSun) {
-      el.onclick = () => selectDate(new Date(calYear, calMonth, d));
-    }
-    grid.appendChild(el);
+function updateSummary(){
+  var count = state.selectedServices.length;
+  var box = document.getElementById('svcSummary');
+  var btn = document.getElementById('btn-step1');
+  if(count===0){
+    box.style.display='none';
+    btn.disabled=true;btn.style.opacity=0.4;
+  }else{
+    box.style.display='block';
+    btn.disabled=false;btn.style.opacity=1;
+    document.getElementById('svcCount').textContent = count;
+    var dur = getTotalDuration();
+    var h = Math.floor(dur/60), m = dur%60;
+    var dt = (h?h+'h ':'')+(m?m+'m':'').trim();
+    document.getElementById('svcDuration').textContent = dt || dur+'m';
+    document.getElementById('svcTotal').textContent = '$'+getTotalPrice();
   }
 }
 
-function prevMonth() { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
-function nextMonth() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); }
+// ===== CALENDAR =====
+var monthNames = {
+  en:['January','February','March','April','May','June','July','August','September','October','November','December'],
+  uk:['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень']
+};
+var dayNames = {
+  en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+  uk:['Нд','Пн','Вт','Ср','Чт','Пт','Сб']
+};
 
-function selectDate(date) {
-  selectedDate = date;
-  selectedTime = null;
+function renderCalendar(){
+  var year = currentMonth.getFullYear();
+  var month = currentMonth.getMonth();
+  document.getElementById('calMonth').textContent = monthNames[LANG][month]+' '+year;
+  
+  var firstDay = new Date(year,month,1).getDay();
+  var daysInMonth = new Date(year,month+1,0).getDate();
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  
+  var html = '';
+  dayNames[LANG].forEach(function(d){html+='<div class="cal-day-name">'+d+'</div>';});
+  for(var i=0;i<firstDay;i++) html+='<div class="cal-day empty"></div>';
+  
+  for(var day=1;day<=daysInMonth;day++){
+    var date = new Date(year,month,day);
+    var dow = date.getDay();
+    var isPast = date < today;
+    var isSunday = dow===0;
+    var isToday = date.getTime()===today.getTime();
+    var dateStr = year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+    var isSelected = state.date===dateStr;
+    var disabled = isPast || isSunday;
+    
+    html += '<div class="cal-day'+(disabled?' disabled':'')+(isToday?' today':'')+(isSelected?' on':'')+'" '
+          + (disabled?'':'onclick="selectDate(\''+dateStr+'\')"')+'>'+day+'</div>';
+  }
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+function changeMonth(dir){
+  currentMonth.setMonth(currentMonth.getMonth()+dir);
   renderCalendar();
-  document.getElementById('time-panel').style.display = 'block';
-  renderTimeSlots();
-  document.getElementById('btn-to-client').disabled = true;
 }
 
-// ── TIME SLOTS ────────────────────────────────────────────────────────
-function renderTimeSlots() {
-  const dur = getTotalDuration();
-  const note = document.getElementById('txt-duration-note');
-  note.textContent = lang==='uk'
-    ? `Тривалість вашої процедури: ${formatDuration(dur)}`
-    : `Your appointment duration: ${formatDuration(dur)}`;
-
-  const slots = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
-  const unavailable = ['11:00','13:30','15:00']; // demo
-
-  const grid = document.getElementById('time-grid');
-  grid.innerHTML = '';
-  slots.forEach(s => {
-    const el = document.createElement('div');
-    const un = unavailable.includes(s);
-    el.className = 'time-slot' + (un?' unavailable':'') + (selectedTime===s?' selected':'');
-    el.textContent = s;
-    if (!un) el.onclick = () => selectTime(s);
-    grid.appendChild(el);
-  });
+function selectDate(d){
+  state.date = d;
+  state.time = null;
+  renderCalendar();
+  document.getElementById('btn-step2').disabled=false;
+  document.getElementById('btn-step2').style.opacity=1;
 }
 
-function selectTime(t) {
-  selectedTime = t;
-  renderTimeSlots();
-  document.getElementById('btn-to-client').disabled = false;
-}
-
-// ── PHOTO UPLOAD ──────────────────────────────────────────────────────
-function previewPhotos(e) {
-  const preview = document.getElementById('upload-preview');
-  Array.from(e.target.files).forEach(f => {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = document.createElement('img');
-      img.className = 'upload-thumb';
-      img.src = ev.target.result;
-      preview.appendChild(img);
-    };
-    reader.readAsDataURL(f);
-  });
-}
-
-// ── GIFT ──────────────────────────────────────────────────────────────
-function toggleGift() {
-  isGift = !isGift;
-  document.getElementById('gift-toggle').classList.toggle('selected', isGift);
-  document.getElementById('gift-fields').style.display = isGift ? 'block' : 'none';
-}
-
-// ── NOTIFY ────────────────────────────────────────────────────────────
-function toggleNotify(key) {
-  notifyToggles[key] = !notifyToggles[key];
-  const el = document.getElementById('toggle-'+key);
-  el.classList.toggle('on', notifyToggles[key]);
-  if (key==='ig') {
-    document.getElementById('ig-handle-row').style.display = notifyToggles.ig ? 'block' : 'none';
+// ===== TIME SLOTS =====
+function renderTimeSlots(){
+  // Working hours: 8:00 - 20:00, slots every 30 min
+  var slots = [];
+  for(var h=8;h<20;h++){
+    slots.push(String(h).padStart(2,'0')+':00');
+    slots.push(String(h).padStart(2,'0')+':30');
   }
-}
-
-// ── CONFIRM ───────────────────────────────────────────────────────────
-function buildConfirmView() {
-  const name = document.getElementById('input-name').value || '—';
-  const phone = document.getElementById('input-phone').value || '—';
-  const email = document.getElementById('input-email').value || '—';
-
-  const serviceNames = [];
-  selected.forEach(id => {
-    const s = allServices().find(x => x.id===id);
-    if (s) serviceNames.push(lang==='uk'?s.uk:s.en);
+  
+  var dur = getTotalDuration();
+  var endHour = 20;
+  
+  var dateObj = new Date(state.date);
+  var dateText = dateObj.toLocaleDateString(LANG==='uk'?'uk-UA':'en-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('timeInfo').textContent = '📅 '+dateText+' · ⏱ '+dur+(LANG==='uk'?' хв':' min');
+  
+  // Filter out slots that won't fit
+  var html = '';
+  slots.forEach(function(slot){
+    var parts = slot.split(':');
+    var slotMin = parseInt(parts[0])*60+parseInt(parts[1]);
+    var endMin = slotMin+dur;
+    var disabled = endMin > endHour*60;
+    var on = state.time===slot;
+    html += '<div class="time-slot'+(disabled?' disabled':'')+(on?' on':'')+'" '
+          + (disabled?'':'onclick="selectTime(\''+slot+'\')"')+'>'+slot+'</div>';
   });
-
-  const dateStr = selectedDate ? selectedDate.toLocaleDateString(lang==='uk'?'uk-UA':'en-CA', {weekday:'long',month:'long',day:'numeric'}) : '—';
-
-  const rows = [
-    { label: lang==='uk'?'Ім\'я':'Name', value: name },
-    { label: lang==='uk'?'Телефон':'Phone', value: phone },
-    { label: lang==='uk'?'Послуги':'Services', value: serviceNames.join(', ') || '—' },
-    { label: lang==='uk'?'Дата':'Date', value: dateStr },
-    { label: lang==='uk'?'Час':'Time', value: selectedTime || '—' },
-    { label: lang==='uk'?'Тривалість':'Duration', value: formatDuration(getTotalDuration()) },
-    { label: lang==='uk'?'Вартість':'Total', value: '$' + getTotalPrice() },
-  ];
-
-  const container = document.getElementById('confirm-details');
-  container.innerHTML = rows.map(r => `
-    <div class="confirm-row">
-      <span class="confirm-row-label">${r.label}</span>
-      <span class="confirm-row-value">${r.value}</span>
-    </div>`).join('');
+  document.getElementById('timeGrid').innerHTML = html;
 }
 
-function submitBooking() {
-  // In production: POST to backend / Google Calendar API
-  buildSuccessView();
-  goTo('view-success');
+function selectTime(t){
+  state.time = t;
+  renderTimeSlots();
+  document.getElementById('btn-step3').disabled=false;
+  document.getElementById('btn-step3').style.opacity=1;
 }
 
-function buildSuccessView() {
-  const name = document.getElementById('input-name').value || '';
-  const dateStr = selectedDate ? selectedDate.toLocaleDateString(lang==='uk'?'uk-UA':'en-CA',{weekday:'long',month:'long',day:'numeric'}) : '';
-  const container = document.getElementById('success-details');
-  container.innerHTML = `
-    <div class="confirm-row"><span class="confirm-row-label">${lang==='uk'?'Дата':'Date'}</span><span class="confirm-row-value">${dateStr}</span></div>
-    <div class="confirm-row"><span class="confirm-row-label">${lang==='uk'?'Час':'Time'}</span><span class="confirm-row-value">${selectedTime}</span></div>
-    <div class="confirm-row"><span class="confirm-row-label">${lang==='uk'?'Вартість':'Total'}</span><span class="confirm-row-value">$${getTotalPrice()}</span></div>`;
+// ===== GIFT TOGGLE =====
+function toggleGift(){
+  state.isGift = document.getElementById('isGift').checked;
+  document.getElementById('giftFields').style.display = state.isGift?'block':'none';
 }
 
-function startOver() {
-  selected.clear(); selectedDate=null; selectedTime=null;
-  isGift=false;
-  document.getElementById('input-name').value='';
-  document.getElementById('input-phone').value='';
-  document.getElementById('input-email').value='';
-  document.getElementById('input-notes').value='';
-  document.getElementById('upload-preview').innerHTML='';
-  goTo('view-home');
-}
-
-// ── ADMIN ──────────────────────────────────────────────────────────────
-function toggleAdmin() {
-  document.getElementById('adminOverlay').classList.toggle('open');
-}
-function closeAdmin(e) {
-  if (e.target === document.getElementById('adminOverlay')) {
-    document.getElementById('adminOverlay').classList.remove('open');
+// ===== CONFIRM =====
+function renderConfirm(){
+  var svcs = getSelectedServiceData();
+  var name = document.getElementById('clientName').value;
+  var phone = document.getElementById('clientPhone').value;
+  var dateObj = new Date(state.date);
+  var dateText = dateObj.toLocaleDateString(LANG==='uk'?'uk-UA':'en-US',{weekday:'long',month:'long',day:'numeric'});
+  
+  var html = '<div class="confirm-row"><span class="label">'+(LANG==='uk'?"Ім'я":'Name')+'</span><span class="val">'+esc(name)+'</span></div>'
+           + '<div class="confirm-row"><span class="label">'+(LANG==='uk'?'Телефон':'Phone')+'</span><span class="val">'+esc(phone)+'</span></div>'
+           + '<div class="confirm-row"><span class="label">'+(LANG==='uk'?'Послуги':'Services')+'</span><span class="val">'+svcs.map(function(s){return esc(s[LANG]);}).join('<br>')+'</span></div>'
+           + '<div class="confirm-row"><span class="label">'+(LANG==='uk'?'Дата':'Date')+'</span><span class="val">'+dateText+'</span></div>'
+           + '<div class="confirm-row"><span class="label">'+(LANG==='uk'?'Час':'Time')+'</span><span class="val">'+state.time+'</span></div>'
+           + '<div class="confirm-row"><span class="label">'+(LANG==='uk'?'Тривалість':'Duration')+'</span><span class="val">'+getTotalDuration()+(LANG==='uk'?' хв':' min')+'</span></div>'
+           + '<div class="confirm-row"><span class="label">'+(LANG==='uk'?'Всього':'Total')+'</span><span class="val" style="color:var(--gold);font-weight:500">$'+getTotalPrice()+'</span></div>';
+  
+  if(state.isGift){
+    var rec = document.getElementById('giftRecipient').value;
+    if(rec) html = '<div class="confirm-row" style="background:rgba(201,169,110,0.1);margin:-18px -18px 12px;padding:10px 18px"><span class="label">🎁 '+(LANG==='uk'?'Подарунок для':'Gift for')+'</span><span class="val">'+esc(rec)+'</span></div>'+html;
   }
+  
+  document.getElementById('confirmCard').innerHTML = html;
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────
-applyTranslations();
-renderServices();
-renderCalendar();
+// ===== SUBMIT =====
+function submitBooking(){
+  var btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.textContent = LANG==='uk'?'Відправка...':'Sending...';
+  
+  var svcs = getSelectedServiceData().map(function(s){return {id:s.id, name:s[LANG], price:s.price, min:s.min};});
+  
+  var data = new FormData();
+  data.append('name', document.getElementById('clientName').value.trim());
+  data.append('phone', document.getElementById('clientPhone').value.trim());
+  data.append('email', document.getElementById('clientEmail').value.trim());
+  data.append('services', JSON.stringify(svcs));
+  data.append('date', state.date);
+  data.append('time', state.time);
+  data.append('duration_min', getTotalDuration());
+  data.append('total_price', getTotalPrice());
+  data.append('notes', document.getElementById('clientNotes').value.trim());
+  data.append('notify_email', '1');
+  if(state.isGift){
+    data.append('is_gift','1');
+    data.append('gift_recipient', document.getElementById('giftRecipient').value.trim());
+    data.append('gift_contact', document.getElementById('giftContact').value.trim());
+  }
+  
+  fetch('/api/bookings',{method:'POST',body:data})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      btn.disabled=false;
+      btn.textContent = LANG==='uk'?'✓ Підтвердити запис':'✓ Confirm Booking';
+      if(d.success){
+        goScreen('success');
+      }else{
+        alert((LANG==='uk'?'Помилка: ':'Error: ')+(d.error||'Unknown'));
+      }
+    })
+    .catch(function(e){
+      btn.disabled=false;
+      btn.textContent = LANG==='uk'?'✓ Підтвердити запис':'✓ Confirm Booking';
+      alert(LANG==='uk'?'Помилка зв\'язку':'Connection error');
+    });
+}
+
+// ===== GALLERY =====
+var DEMO_PHOTOS = [
+  {url:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80', label:'Gel Polish'},
+  {url:'https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=400&q=80', label:'Nail Art'},
+  {url:'https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=400&q=80', label:'French Tips'},
+  {url:'https://images.unsplash.com/photo-1604902396830-aca29e19b067?w=400&q=80', label:'Extensions'},
+  {url:'https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=400&q=80', label:'Pedicure'}
+];
+
+function renderGallery(){
+  fetch('/api/gallery').then(function(r){return r.json();}).then(function(list){
+    var photos = list && list.length ? list.map(function(p){return {url:'/uploads/gallery/'+p.filename, label:p.caption||''};}) : DEMO_PHOTOS;
+    var html = photos.slice(0,5).map(function(p){
+      return '<div class="gal-item"><img src="'+p.url+'" alt="" onerror="this.src=\''+DEMO_PHOTOS[0].url+'\'"/>'+(p.label?'<div class="label">'+esc(p.label)+'</div>':'')+'</div>';
+    }).join('');
+    document.getElementById('galleryGrid').innerHTML = html;
+  }).catch(function(){
+    document.getElementById('galleryGrid').innerHTML = DEMO_PHOTOS.map(function(p){
+      return '<div class="gal-item"><img src="'+p.url+'" alt=""/><div class="label">'+p.label+'</div></div>';
+    }).join('');
+  });
+}
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+
+// ===== INIT =====
+setLang(LANG);
+renderGallery();
 </script>
 </body>
 </html>
-
-<script>
-// ── API INTEGRATION ───────────────────────────────────────────────────
-const API = window.location.origin;
-
-// Load gallery from backend on startup
-async function loadGallery() {
-  try {
-    const res = await fetch(`${API}/api/gallery`);
-    const photos = await res.json();
-    if (photos.length === 0) return; // keep placeholders
-
-    const scroll = document.querySelector('.gallery-scroll');
-    scroll.innerHTML = '';
-    photos.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'gallery-card';
-      card.innerHTML = `
-        <img src="${API}/uploads/gallery/${p.filename}" alt="${p.caption || 'Olka Studio'}">
-        <div class="badge">${p.category || 'Nail Art'}</div>`;
-      scroll.appendChild(card);
-    });
-  } catch(e) { /* keep placeholders */ }
-}
-
-// Submit booking to backend
-async function submitBookingToAPI() {
-  const name = document.getElementById('input-name').value.trim();
-  const phone = document.getElementById('input-phone').value.trim();
-  const email = document.getElementById('input-email').value.trim();
-  const notes = document.getElementById('input-notes').value.trim();
-
-  const selectedServices = [];
-  selected.forEach(id => {
-    const s = allServices().find(x => x.id === id);
-    if (s) selectedServices.push({ id: s.id, name: lang==='uk'?s.uk:s.en, price: s.price, min: s.min });
-  });
-
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('phone', phone);
-  formData.append('email', email);
-  formData.append('services', JSON.stringify(selectedServices));
-  formData.append('date', selectedDate.toLocaleDateString('uk-UA'));
-  formData.append('time', selectedTime);
-  formData.append('duration_min', getTotalDuration());
-  formData.append('total_price', getTotalPrice());
-  formData.append('notes', notes);
-  formData.append('notify_sms', notifyToggles.sms ? '1' : '0');
-  formData.append('notify_email', notifyToggles.email ? '1' : '0');
-  formData.append('notify_tg', notifyToggles.tg ? '1' : '0');
-  formData.append('notify_ig', notifyToggles.ig ? (document.getElementById('input-ig-handle').value||'') : '');
-  formData.append('notify_fb', notifyToggles.fb ? '1' : '0');
-  formData.append('is_gift', isGift ? '1' : '0');
-  if (isGift) {
-    formData.append('gift_recipient', document.getElementById('input-gift-name').value||'');
-    formData.append('gift_contact', document.getElementById('input-gift-contact').value||'');
-    formData.append('gift_message', document.getElementById('input-gift-msg').value||'');
-  }
-
-  // Attach photo if uploaded
-  const photoInput = document.getElementById('photo-input');
-  if (photoInput.files[0]) formData.append('photo', photoInput.files[0]);
-
-  const btn = document.getElementById('btn-confirm-final');
-  btn.disabled = true;
-  btn.textContent = lang==='uk' ? 'Відправляємо...' : 'Sending...';
-
-  try {
-    const res = await fetch(`${API}/api/bookings`, { method: 'POST', body: formData });
-    const data = await res.json();
-    if (data.success) {
-      buildSuccessView();
-      goTo('view-success');
-    } else {
-      alert('Error: ' + (data.error || 'Unknown error'));
-      btn.disabled = false;
-      btn.textContent = lang==='uk' ? 'Підтвердити запис' : 'Confirm Booking';
-    }
-  } catch(e) {
-    console.error(e);
-    alert(lang==='uk' ? 'Помилка зʼєднання. Спробуйте ще раз.' : 'Connection error. Please try again.');
-    btn.disabled = false;
-    btn.textContent = lang==='uk' ? 'Підтвердити запис' : 'Confirm Booking';
-  }
-}
-
-// Override submitBooking to use API
-window.submitBooking = submitBookingToAPI;
-
-// Load gallery on page load
-loadGallery();
-</script>
