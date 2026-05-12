@@ -1,20 +1,28 @@
 {
   "name": "olka-studio",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "Olka Studio — Nail & Beauty booking system, Hamilton ON",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start":   "node server.js",
+    "dev":     "nodemon server.js",
+    "pm2":     "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop olka-studio",
+    "pm2:logs": "pm2 logs olka-studio"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "sqlite3": "^5.1.7",
-    "node-telegram-bot-api": "^0.64.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.7"
+    "better-sqlite3": "^9.4.3",
+    "compression":    "^1.7.4",
+    "dotenv":         "^16.4.5",
+    "express":        "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "node-fetch":     "^3.3.2",
+    "nodemailer":     "^6.9.13"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   }
 }
