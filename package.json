@@ -1,22 +1,16 @@
 {
-  "name": "olka-studio",
-  "version": "2.0.1",
-  "description": "Olka Studio — Nail & Beauty booking, Hamilton ON",
+  "name": "olka-studio-v2",
+  "version": "2.0.0",
+  "description": "Olka Studio — nail & beauty Hamilton",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev":   "node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "compression":        "^1.7.4",
-    "dotenv":             "^16.4.5",
-    "express":            "^4.19.2",
-    "express-rate-limit": "^7.3.1",
-    "node-fetch":         "^3.3.2",
-    "nodemailer":         "^6.9.13",
-    "sqlite3":            "^5.1.7"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "sqlite3": "^5.1.7"
   }
 }
